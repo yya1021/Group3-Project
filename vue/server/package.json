@@ -1,0 +1,20 @@
+{
+  "name": "library-server",
+  "version": "1.0.0",
+  "description": "座椅联合图书馆 - 后端 API 服务 (Node.js + Express)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "keywords": ["blog", "express", "api", "library"],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0"
+  }
+}

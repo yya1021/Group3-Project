@@ -1,0 +1,28 @@
+# ============================================================
+#  Cloudflare Tunnel 正式域名配置（不带端口访问）
+#
+#  已配置域名: goodwood-ci.asia（含 www 子域）
+#
+#  用法（在 Termux 中）:
+#    pkg install -y cloudflared
+#    cloudflared tunnel login
+#    cloudflared tunnel create library        # 记录返回的 tunnel UUID
+#    cloudflared tunnel route dns library goodwood-ci.asia
+#
+#  然后把本文件复制为 ~/.cloudflared/config.yml，
+#  把下面两处 <TUNNEL_UUID> 替换成真实 UUID 后启动:
+#    cloudflared tunnel run library
+#
+#  说明: ingress 的 service 指向本机 nginx(8080)；
+#        若未启用 nginx，改为 http://127.0.0.1:3000。
+# ============================================================
+
+tunnel: <TUNNEL_UUID>
+credentials-file: /data/data/com.termux/files/usr/.cloudflared/<TUNNEL_UUID>.json
+
+ingress:
+  - hostname: goodwood-ci.asia
+    service: http://127.0.0.1:8080
+  - hostname: www.goodwood-ci.asia
+    service: http://127.0.0.1:8080
+  - service: http_status:404

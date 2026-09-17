@@ -1,0 +1,281 @@
+
+        /* ============ 导航栏样式 ============ */
+        .top-header {
+            background-color: #000000;
+            border-bottom: 4px solid #E63329;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            position: relative;
+        }
+
+        .nav-logo {
+            text-decoration: none;
+            z-index: 1001;
+        }
+
+        .logo-text {
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin: 0;
+        }
+
+        .nav-link {
+            display: block;
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .nav-link:hover {
+            background-color: #E63329;
+        }
+
+        .nav-link.active {
+            background-color: #E63329;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #FFFFFF;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* 移动端响应式 */
+        @media screen and (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background-color: #000000;
+                flex-direction: column;
+                border-bottom: 4px solid #E63329;
+                z-index: 1000;
+                max-height: calc(100vh - 60px);
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                display: flex !important;
+            }
+
+            .nav-item {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-link {
+                padding: 1rem;
+                border-bottom: 1px solid #333;
+                display: block;
+                width: 100%;
+            }
+
+            .nav-item:last-child .nav-link {
+                border-bottom: none;
+            }
+
+            .nav-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .nav-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .nav-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+        }
+
+        /* ============ 首页样式 ============ */
+        .banner-main {
+            width: 100%;
+            margin-bottom: 2rem;
+            border: 3px solid #000000;
+            box-shadow: 4px 4px 0px #000000;
+            overflow: hidden;
+        }
+
+        .banner-main img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .latest-posts-section {
+            margin: 2rem 0;
+        }
+
+        .latest-posts-title {
+            font-size: 2rem;
+            color: #000000;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        .latest-posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .latest-post-card {
+            background: white;
+            border: 3px solid #000000;
+            box-shadow: 4px 4px 0px #000000;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .latest-post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #E63329;
+        }
+
+        .latest-post-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #000000;
+        }
+
+        .latest-post-card h3 {
+            color: #000000;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .latest-post-card .post-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .latest-post-card .post-excerpt {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .post-tags {
+            margin-top: 1rem;
+        }
+
+        .post-tag {
+            display: inline-block;
+            background: #000000;
+            color: #FFFFFF;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .banner-secondary {
+            width: 100%;
+            margin-top: 2rem;
+            border: 3px solid #000000;
+            box-shadow: 4px 4px 0px #000000;
+            overflow: hidden;
+        }
+
+        .banner-secondary img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .loading,
+        .error,
+        .empty {
+            text-align: center;
+            color: #000;
+            padding: 2rem;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0px #000;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: #000000;
+            color: #FFFFFF;
+            border-top: 4px solid #E63329;
+            margin-top: auto;
+        }
+
+        @media screen and (max-width: 768px) {
+
+            .banner-main,
+            .banner-secondary {
+                border-width: 2px;
+                box-shadow: 3px 3px 0px #000;
+            }
+
+            .latest-post-card {
+                padding: 1rem;
+                border-width: 2px;
+                box-shadow: 3px 3px 0px #000;
+            }
+        }
+    

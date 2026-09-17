@@ -1,0 +1,65 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+      "role": "admin",
+      "totpSecret": "ZZR2NHRWZ75TC74DZNQ7S5B3R3R6WENM",
+      "totpEnabled": true,
+      "shopId": null,
+      "createdAt": "2026-09-06T03:37:25.633Z",
+      "cart": [],
+      "recoveryCodes": [
+        "ca4f5571f9d6b129665a58b611380a528de35af20ed8d7f7245a6c52100e6b84",
+        "cefb76e00b9c709cf9abb69d6909b6b87768820562a074dc70be76197571a086",
+        "483f2e74dc7b4db70f4b3ca306fc5743215c252500e4583a359504e8313df835",
+        "9855bfb941d005e7623c09d2f0ae70b79d065a7f31711c44e86e80202952d4ba"
+      ]
+    },
+    {
+      "id": 2,
+      "username": "test1",
+      "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+      "role": "user",
+      "totpSecret": null,
+      "totpEnabled": false,
+      "shopId": null,
+      "createdAt": "2026-09-06T04:41:47.969Z",
+      "cart": []
+    },
+    {
+      "id": 3,
+      "username": "test2",
+      "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+      "role": "merchant",
+      "totpSecret": null,
+      "totpEnabled": false,
+      "shopId": 3,
+      "createdAt": "2026-09-06T05:35:43.340Z",
+      "cart": []
+    },
+    {
+      "id": 4,
+      "username": "auditor",
+      "password": "5b92db4dfb561dc69c949f34d36f5db0f8b30811be3a2949d85c5001279e9b1a",
+      "role": "auditor",
+      "totpSecret": null,
+      "totpEnabled": false,
+      "shopId": null,
+      "createdAt": "2026-09-06T05:40:57.000Z",
+      "cart": []
+    },
+    {
+      "id": 5,
+      "username": "test3",
+      "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+      "role": "user",
+      "totpSecret": null,
+      "totpEnabled": false,
+      "shopId": null,
+      "createdAt": "2026-09-06T06:38:37.519Z",
+      "cart": []
+    }
+  ]
+}

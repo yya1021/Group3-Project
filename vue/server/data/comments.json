@@ -1,0 +1,37 @@
+{
+  "comments": [
+    {
+      "id": 1,
+      "contentType": "article",
+      "contentId": 2,
+      "author": "DMC",
+      "content": "好啊,比两小儿辩日还要好",
+      "createdAt": "2026-08-16T10:43:34.725Z"
+    },
+    {
+      "id": 2,
+      "contentType": "article",
+      "contentId": 2,
+      "author": "教宗",
+      "content": "教宗说:老二辣鸡",
+      "createdAt": "2026-08-16T10:49:32.635Z"
+    },
+    {
+      "id": 3,
+      "contentType": "article",
+      "contentId": 3,
+      "author": "1",
+      "content": "1",
+      "createdAt": "2026-08-16T10:56:18.723Z"
+    },
+    {
+      "id": 4,
+      "contentType": "article",
+      "contentId": 5,
+      "author": "abc",
+      "content": "123",
+      "status": "approved",
+      "createdAt": "2026-08-29T11:27:27.300Z"
+    }
+  ]
+}

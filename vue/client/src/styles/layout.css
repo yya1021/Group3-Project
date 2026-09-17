@@ -1,0 +1,75 @@
+/* ============================================================
+   全局纵向布局
+   目标：除顶部导航栏与底部版权信息外，页面内容自上而下依次排列。
+
+   背景说明：各页面样式在 SPA 中会被全局加载、规则相互覆盖
+   （尤其是 404 页的 main 规则会泄漏到所有页面，导致内容横向
+   排列）。此处用 !important 统一保证主内容区纵向堆叠。
+   ============================================================ */
+
+/* 外层：顶部导航 → 主内容 → 底部版权，自上而下 */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* 主内容区：纵向排列，所有区块从上到下依次堆叠 */
+main {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+/* 404 页面：错误提示框保持水平 + 垂直居中 */
+main.error-page {
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 导航栏认证区（登录/注册/用户信息/退出） */
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+.nav-auth .user-badge {
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 0 0.6rem;
+  white-space: nowrap;
+}
+
+.nav-auth .btn-logout {
+  background: #e63329;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  border-radius: 2px;
+}
+
+.nav-auth .nav-login {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.nav-auth .nav-login:hover {
+  background-color: #e63329;
+}

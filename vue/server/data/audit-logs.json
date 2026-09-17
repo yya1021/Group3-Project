@@ -1,0 +1,864 @@
+{
+  "logs": [
+    {
+      "id": 1,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login",
+      "resource": "auth",
+      "detail": "管理员 TOTP 认证成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T04:37:45.112Z"
+    },
+    {
+      "id": 2,
+      "operator": "admin",
+      "role": "admin",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T04:41:31.642Z"
+    },
+    {
+      "id": 3,
+      "operator": "test1",
+      "role": "user",
+      "action": "register",
+      "resource": "user",
+      "detail": "普通用户注册",
+      "ip": "::1",
+      "timestamp": "2026-09-06T04:41:47.970Z"
+    },
+    {
+      "id": 4,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_required",
+      "resource": "auth",
+      "detail": "管理员登录，要求 TOTP",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:34:48.016Z"
+    },
+    {
+      "id": 5,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login",
+      "resource": "auth",
+      "detail": "管理员 TOTP 认证成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:35:08.866Z"
+    },
+    {
+      "id": 6,
+      "operator": "admin",
+      "role": "admin",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:35:31.695Z"
+    },
+    {
+      "id": 7,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "register",
+      "resource": "user",
+      "detail": "商户注册",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:35:43.341Z"
+    },
+    {
+      "id": 8,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:36:04.082Z"
+    },
+    {
+      "id": 9,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_required",
+      "resource": "auth",
+      "detail": "管理员登录，要求 TOTP",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:36:09.840Z"
+    },
+    {
+      "id": 10,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login",
+      "resource": "auth",
+      "detail": "管理员 TOTP 认证成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:36:16.873Z"
+    },
+    {
+      "id": 11,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "127.0.0.1",
+      "timestamp": "2026-09-06T05:41:55.866Z"
+    },
+    {
+      "id": 12,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:43:42.230Z"
+    },
+    {
+      "id": 13,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "create",
+      "resource": "product",
+      "detail": "新增商品 #7 123",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:44:14.645Z"
+    },
+    {
+      "id": 14,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "delete",
+      "resource": "product",
+      "detail": "删除商品 #7",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:44:19.240Z"
+    },
+    {
+      "id": 15,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:44:30.140Z"
+    },
+    {
+      "id": 16,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:44:47.557Z"
+    },
+    {
+      "id": 17,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:44:55.403Z"
+    },
+    {
+      "id": 18,
+      "operator": "test1",
+      "role": "user",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:45:16.169Z"
+    },
+    {
+      "id": 19,
+      "operator": "test1",
+      "role": "user",
+      "action": "create",
+      "resource": "order",
+      "detail": "创建订单 #1，金额 30",
+      "ip": "::1",
+      "timestamp": "2026-09-06T05:45:21.085Z"
+    },
+    {
+      "id": 20,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_required",
+      "resource": "auth",
+      "detail": "管理员登录，要求 TOTP",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:03:48.859Z"
+    },
+    {
+      "id": 21,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login",
+      "resource": "auth",
+      "detail": "管理员 TOTP 认证成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:04:03.117Z"
+    },
+    {
+      "id": 22,
+      "operator": "admin",
+      "role": "admin",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:04:15.687Z"
+    },
+    {
+      "id": 23,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:04:22.816Z"
+    },
+    {
+      "id": 24,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:04:29.736Z"
+    },
+    {
+      "id": 25,
+      "operator": "test1",
+      "role": "user",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:04:37.139Z"
+    },
+    {
+      "id": 26,
+      "operator": "test1",
+      "role": "user",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:04:42.362Z"
+    },
+    {
+      "id": 27,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:04:53.558Z"
+    },
+    {
+      "id": 28,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:05:05.134Z"
+    },
+    {
+      "id": 29,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_required",
+      "resource": "auth",
+      "detail": "管理员登录，要求 TOTP",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:11:27.663Z"
+    },
+    {
+      "id": 30,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login",
+      "resource": "auth",
+      "detail": "管理员 TOTP 认证成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:11:32.915Z"
+    },
+    {
+      "id": 31,
+      "operator": "admin",
+      "role": "admin",
+      "action": "delete",
+      "resource": "order",
+      "detail": "取消订单 #1",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:11:38.434Z"
+    },
+    {
+      "id": 32,
+      "operator": "admin",
+      "role": "admin",
+      "action": "create",
+      "resource": "order",
+      "detail": "创建订单 #1，金额 30",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:11:48.332Z"
+    },
+    {
+      "id": 33,
+      "operator": "admin",
+      "role": "admin",
+      "action": "delete",
+      "resource": "order",
+      "detail": "取消订单 #1",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:11:51.090Z"
+    },
+    {
+      "id": 34,
+      "operator": "admin",
+      "role": "admin",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:11:53.032Z"
+    },
+    {
+      "id": 35,
+      "operator": "test1",
+      "role": "user",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:12:00.234Z"
+    },
+    {
+      "id": 36,
+      "operator": "test1",
+      "role": "user",
+      "action": "create",
+      "resource": "order",
+      "detail": "创建订单 #1，金额 55",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:12:09.184Z"
+    },
+    {
+      "id": 37,
+      "operator": "test1",
+      "role": "user",
+      "action": "delete",
+      "resource": "order",
+      "detail": "取消订单 #1",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:12:13.174Z"
+    },
+    {
+      "id": 38,
+      "operator": "test1",
+      "role": "user",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:12:18.374Z"
+    },
+    {
+      "id": 39,
+      "operator": "test3",
+      "role": "user",
+      "action": "register",
+      "resource": "user",
+      "detail": "普通用户注册",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:38:37.521Z"
+    },
+    {
+      "id": 40,
+      "operator": "test3",
+      "role": "user",
+      "action": "create",
+      "resource": "order",
+      "detail": "创建订单 #1，金额 30",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:39:01.771Z"
+    },
+    {
+      "id": 41,
+      "operator": "test3",
+      "role": "user",
+      "action": "delete",
+      "resource": "order",
+      "detail": "取消订单 #1",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:39:06.660Z"
+    },
+    {
+      "id": 42,
+      "operator": "test3",
+      "role": "user",
+      "action": "create",
+      "resource": "order",
+      "detail": "创建订单 #1，金额 15",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:39:13.655Z"
+    },
+    {
+      "id": 43,
+      "operator": "test3",
+      "role": "user",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:39:16.467Z"
+    },
+    {
+      "id": 44,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_required",
+      "resource": "auth",
+      "detail": "管理员登录，要求 TOTP",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:39:22.358Z"
+    },
+    {
+      "id": 45,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login",
+      "resource": "auth",
+      "detail": "管理员 TOTP 认证成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:39:30.332Z"
+    },
+    {
+      "id": 46,
+      "operator": "admin",
+      "role": "admin",
+      "action": "delete",
+      "resource": "order",
+      "detail": "取消订单 #1",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:39:40.945Z"
+    },
+    {
+      "id": 47,
+      "operator": "admin",
+      "role": "admin",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:39:53.803Z"
+    },
+    {
+      "id": 48,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:40:01.816Z"
+    },
+    {
+      "id": 49,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "create",
+      "resource": "product",
+      "detail": "新增商品 #7 123",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:40:19.299Z"
+    },
+    {
+      "id": 50,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "delete",
+      "resource": "product",
+      "detail": "删除商品 #7",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:40:24.884Z"
+    },
+    {
+      "id": 51,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "create",
+      "resource": "product",
+      "detail": "新增商品 #7 123",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:40:34.318Z"
+    },
+    {
+      "id": 52,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "update",
+      "resource": "product",
+      "detail": "修改商品 #7",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:40:47.552Z"
+    },
+    {
+      "id": 53,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "delete",
+      "resource": "product",
+      "detail": "删除商品 #7",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:40:50.897Z"
+    },
+    {
+      "id": 54,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:40:52.447Z"
+    },
+    {
+      "id": 55,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "login_failed",
+      "resource": "auth",
+      "detail": "密码错误",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:40:59.110Z"
+    },
+    {
+      "id": 56,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-06T06:41:05.051Z"
+    },
+    {
+      "id": 57,
+      "operator": "test1",
+      "role": "user",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:04:24.114Z"
+    },
+    {
+      "id": 58,
+      "operator": "test1",
+      "role": "user",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:04:48.700Z"
+    },
+    {
+      "id": 59,
+      "operator": "test1",
+      "role": "user",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:06:17.603Z"
+    },
+    {
+      "id": 60,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_required",
+      "resource": "auth",
+      "detail": "管理员登录，要求 TOTP",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:16:21.028Z"
+    },
+    {
+      "id": 61,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login",
+      "resource": "auth",
+      "detail": "管理员 TOTP 认证成功",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:16:37.842Z"
+    },
+    {
+      "id": 62,
+      "operator": "admin",
+      "role": "admin",
+      "action": "recovery_codes_regenerate",
+      "resource": "auth",
+      "detail": "重新生成恢复码",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:16:48.709Z"
+    },
+    {
+      "id": 63,
+      "operator": "admin",
+      "role": "admin",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:17:06.661Z"
+    },
+    {
+      "id": 64,
+      "operator": "test1",
+      "role": "user",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:24:40.311Z"
+    },
+    {
+      "id": 65,
+      "operator": "test1",
+      "role": "user",
+      "action": "create",
+      "resource": "order",
+      "detail": "创建订单 #1，金额 30",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:24:51.473Z"
+    },
+    {
+      "id": 66,
+      "operator": "test1",
+      "role": "user",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:26:16.002Z"
+    },
+    {
+      "id": 67,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:26:26.074Z"
+    },
+    {
+      "id": 68,
+      "operator": "test2",
+      "role": "merchant",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:26:51.140Z"
+    },
+    {
+      "id": 69,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:26:57.475Z"
+    },
+    {
+      "id": 70,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:31:43.267Z"
+    },
+    {
+      "id": 71,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_required",
+      "resource": "auth",
+      "detail": "管理员登录，要求 TOTP",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:31:49.013Z"
+    },
+    {
+      "id": 72,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:32:46.728Z"
+    },
+    {
+      "id": 73,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:33:18.128Z"
+    },
+    {
+      "id": 74,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_required",
+      "resource": "auth",
+      "detail": "管理员登录，要求 TOTP",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:33:26.246Z"
+    },
+    {
+      "id": 75,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_failed",
+      "resource": "auth",
+      "detail": "TOTP 验证失败",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:33:49.761Z"
+    },
+    {
+      "id": 76,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_required",
+      "resource": "auth",
+      "detail": "管理员登录，要求 TOTP",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:34:06.757Z"
+    },
+    {
+      "id": 77,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_failed",
+      "resource": "auth",
+      "detail": "TOTP 验证失败",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:34:27.346Z"
+    },
+    {
+      "id": 78,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_required",
+      "resource": "auth",
+      "detail": "管理员登录，要求 TOTP",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:34:29.939Z"
+    },
+    {
+      "id": 79,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login",
+      "resource": "auth",
+      "detail": "管理员 TOTP 认证成功",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:34:36.833Z"
+    },
+    {
+      "id": 80,
+      "operator": "admin",
+      "role": "admin",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:35:39.932Z"
+    },
+    {
+      "id": 81,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "login",
+      "resource": "auth",
+      "detail": "登录成功",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:35:46.323Z"
+    },
+    {
+      "id": 82,
+      "operator": "auditor",
+      "role": "auditor",
+      "action": "logout",
+      "resource": "auth",
+      "detail": "登出",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:37:32.618Z"
+    },
+    {
+      "id": 83,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_required",
+      "resource": "auth",
+      "detail": "管理员登录，要求 TOTP",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:37:40.823Z"
+    },
+    {
+      "id": 84,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_recovery_failed",
+      "resource": "auth",
+      "detail": "恢复码验证失败",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:38:22.979Z"
+    },
+    {
+      "id": 85,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_totp_required",
+      "resource": "auth",
+      "detail": "管理员登录，要求 TOTP",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:38:32.371Z"
+    },
+    {
+      "id": 86,
+      "operator": "admin",
+      "role": "admin",
+      "action": "login_recovery",
+      "resource": "auth",
+      "detail": "使用恢复码登录",
+      "ip": "::1",
+      "timestamp": "2026-09-10T01:38:57.667Z"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "admins": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+      "role": "admin",
+      "createdAt": "2026-08-16T09:27:14.973Z"
+    },
+    {
+      "id": 2,
+      "username": "DMC",
+      "password": "4244ce9faf726a7443a4c6a552b766bc75d77728a4999866ef0e71988ba0f0a8",
+      "role": "admin",
+      "createdAt": "2026-08-16T09:27:14.973Z"
+    }
+  ]
+}

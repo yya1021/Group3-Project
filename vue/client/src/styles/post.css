@@ -1,0 +1,54 @@
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #000; background-color: #f5f5f5; display: flex; flex-direction: column; min-height: 100vh; }
+        .top-header { background-color: #000; border-bottom: 4px solid #E63329; position: sticky; top: 0; z-index: 100; }
+        .navbar { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; position: relative; }
+        .nav-logo { text-decoration: none; z-index: 1001; }
+        .logo-text { color: #FFF; font-size: 1.5rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+        .nav-menu { display: flex; list-style: none; gap: 0; margin: 0; padding: 0; }
+        .nav-link { display: block; color: #FFF; text-decoration: none; padding: 0.8rem 1.2rem; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; transition: background-color 0.3s; }
+        .nav-link:hover { background-color: #E63329; }
+        .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; z-index: 1001; }
+        .nav-toggle span { display: block; width: 25px; height: 3px; background-color: #FFF; margin: 5px 0; transition: 0.3s; }
+        @media screen and (max-width: 768px) {
+            .nav-toggle { display: block; }
+            .nav-menu { display: none; position: fixed; top: 60px; left: 0; right: 0; background-color: #000; flex-direction: column; border-bottom: 4px solid #E63329; z-index: 1000; max-height: calc(100vh - 60px); overflow-y: auto; }
+            .nav-menu.active { display: flex !important; }
+            .nav-item { width: 100%; text-align: center; }
+            .nav-link { padding: 1rem; border-bottom: 1px solid #333; }
+            .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+            .nav-toggle.active span:nth-child(2) { opacity: 0; }
+            .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        }
+        main { flex: 1; max-width: 800px; width: 100%; margin: 2rem auto; padding: 0 1rem; }
+        .content-container { background: white; border: 3px solid #000; box-shadow: 4px 4px 0px #000; padding: 2rem; margin-bottom: 2rem; }
+        .content-title { font-size: 2rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px; }
+        .content-meta { color: #666; font-size: 0.9rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 3px solid #000; }
+        .content-body { line-height: 1.8; font-size: 1.05rem; }
+        .content-body h1, .content-body h2, .content-body h3 { margin: 1.5rem 0 0.5rem; }
+        .content-body p { margin-bottom: 1rem; }
+        .content-body ul, .content-body ol { margin: 0.5rem 0 1rem 1.5rem; }
+        .content-body blockquote { border-left: 4px solid #E63329; padding-left: 1rem; margin: 1rem 0; color: #555; font-style: italic; }
+        .content-tags { margin-top: 1.5rem; padding-top: 1rem; border-top: 3px solid #000; }
+        .content-tag { display: inline-block; background: #000; color: #FFF; padding: 0.3rem 0.8rem; margin-right: 0.5rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-download { display: inline-block; padding: 0.6rem 1.2rem; background: #000; color: #FFF; text-decoration: none; border: 2px solid #000; box-shadow: 3px 3px 0px #E63329; font-weight: bold; margin-top: 1rem; }
+        .btn-download:hover { background: #E63329; }
+        .comments-container { background: white; border: 3px solid #000; box-shadow: 4px 4px 0px #000; padding: 2rem; }
+        .comments-title { font-size: 1.5rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px; }
+        .comment-form { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid #ddd; }
+        .comment-form .form-group { margin-bottom: 1rem; }
+        .comment-form label { display: block; font-weight: bold; margin-bottom: 0.3rem; }
+        .comment-form input, .comment-form textarea { width: 100%; padding: 0.8rem; border: 2px solid #000; font-family: inherit; }
+        .btn-comment { padding: 0.6rem 1.5rem; background: #E63329; color: #FFF; border: 3px solid #000; box-shadow: 4px 4px 0px #000; cursor: pointer; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .comment-list { display: flex; flex-direction: column; gap: 1rem; }
+        .comment-item { padding: 1rem; border: 2px solid #000; box-shadow: 3px 3px 0px #000; }
+        .comment-author { font-weight: bold; margin-bottom: 0.3rem; }
+        .comment-date { color: #666; font-size: 0.8rem; margin-bottom: 0.5rem; }
+        .comment-content { line-height: 1.6; }
+        .comment-ip { color: #999; font-size: 0.75rem; margin-top: 0.4rem; }
+        .ip-note { color: #999; font-size: 0.75rem; margin-top: 1rem; }
+        .empty-comments { text-align: center; color: #666; padding: 2rem; }
+        .back-link { display: inline-block; margin-top: 1.5rem; color: #E63329; text-decoration: none; font-weight: bold; }
+        footer { text-align: center; padding: 2rem; background-color: #000; color: #FFF; border-top: 4px solid #E63329; }
+    

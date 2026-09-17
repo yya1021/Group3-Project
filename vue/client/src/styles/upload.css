@@ -1,0 +1,48 @@
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #000; background-color: #f5f5f5; display: flex; flex-direction: column; min-height: 100vh; }
+        .top-header { background-color: #000; border-bottom: 4px solid #E63329; position: sticky; top: 0; z-index: 100; }
+        .navbar { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; position: relative; }
+        .nav-logo { text-decoration: none; z-index: 1001; }
+        .logo-text { color: #FFF; font-size: 1.5rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+        .nav-menu { display: flex; list-style: none; gap: 0; margin: 0; padding: 0; }
+        .nav-link { display: block; color: #FFF; text-decoration: none; padding: 0.8rem 1.2rem; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; transition: background-color 0.3s; }
+        .nav-link:hover { background-color: #E63329; }
+        .nav-link.active { background-color: #E63329; }
+        .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; z-index: 1001; }
+        .nav-toggle span { display: block; width: 25px; height: 3px; background-color: #FFF; margin: 5px 0; transition: 0.3s; }
+        @media screen and (max-width: 768px) {
+            .nav-toggle { display: block; }
+            .nav-menu { display: none; position: fixed; top: 60px; left: 0; right: 0; background-color: #000; flex-direction: column; border-bottom: 4px solid #E63329; z-index: 1000; max-height: calc(100vh - 60px); overflow-y: auto; }
+            .nav-menu.active { display: flex !important; }
+            .nav-item { width: 100%; text-align: center; }
+            .nav-link { padding: 1rem; border-bottom: 1px solid #333; }
+            .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+            .nav-toggle.active span:nth-child(2) { opacity: 0; }
+            .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        }
+        main { flex: 1; max-width: 800px; width: 100%; margin: 2rem auto; padding: 0 1rem; }
+        .page-title { text-align: center; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 2rem; }
+        
+        .login-container { max-width: 400px; margin: 0 auto; background: white; border: 3px solid #000; box-shadow: 4px 4px 0px #000; padding: 2rem; }
+        .login-container h2 { text-align: center; margin-bottom: 1.5rem; text-transform: uppercase; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 0.3rem; text-transform: uppercase; font-size: 0.85rem; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.8rem; border: 2px solid #000; font-family: inherit; }
+        .btn { padding: 0.8rem 1.5rem; border: 3px solid #000; box-shadow: 4px 4px 0px #000; cursor: pointer; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-login { width: 100%; background: #E63329; color: #FFF; }
+        .btn-submit { width: 100%; background: #E63329; color: #FFF; }
+        .btn-logout { background: #000; color: #FFF; padding: 0.5rem 1rem; }
+        
+        .upload-container { display: none; background: white; border: 3px solid #000; box-shadow: 4px 4px 0px #000; padding: 2rem; }
+        .file-upload-area { border: 3px dashed #000; padding: 2rem; text-align: center; cursor: pointer; margin-bottom: 1rem; }
+        .file-upload-area:hover { background: #f9f9f9; }
+        .file-info { margin-top: 0.5rem; padding: 0.5rem; background: #f0f0f0; display: none; }
+        
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+        .feedback { padding: 1rem; margin-bottom: 1.5rem; border: 3px solid #000; box-shadow: 4px 4px 0px #000; text-align: center; font-weight: bold; display: none; }
+        .feedback.success { display: block; background: #f0f9f0; color: #008000; }
+        .feedback.error { display: block; background: #fff0f0; color: #E63329; }
+        footer { text-align: center; padding: 2rem; background-color: #000; color: #FFF; border-top: 4px solid #E63329; }
+    

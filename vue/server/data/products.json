@@ -1,0 +1,52 @@
+{
+  "products": [
+    {
+      "type": "hand",
+      "name": "防滑防护手套",
+      "id": 1,
+      "price": 15,
+      "stock": 84,
+      "photo": "/api/products/photo/1"
+    },
+    {
+      "type": "hand",
+      "name": "透气耐磨防护手套",
+      "id": 2,
+      "price": 15,
+      "stock": 92,
+      "photo": "/api/products/photo/2"
+    },
+    {
+      "type": "knife",
+      "name": "多功能便携水果刀",
+      "id": 3,
+      "price": 20,
+      "stock": 45,
+      "photo": "/api/products/photo/3"
+    },
+    {
+      "type": "hamu",
+      "name": "精品烟熏火腿",
+      "id": 4,
+      "price": 25,
+      "stock": 11,
+      "photo": "/api/products/photo/4"
+    },
+    {
+      "type": "other",
+      "name": "创意解压小摆件",
+      "id": 5,
+      "price": 30,
+      "stock": 67,
+      "photo": "/api/products/photo/5"
+    },
+    {
+      "type": "other",
+      "name": "原味香飘飘奶茶",
+      "id": 6,
+      "price": 12,
+      "stock": 120,
+      "photo": "/api/products/photo/6"
+    }
+  ]
+}

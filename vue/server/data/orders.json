@@ -1,0 +1,21 @@
+{
+  "orders": [
+    {
+      "id": 1,
+      "orderNumber": "1789003491471",
+      "username": "test1",
+      "userId": 2,
+      "products": [
+        {
+          "id": 1,
+          "name": "防滑防护手套",
+          "price": 15,
+          "amount": 2
+        }
+      ],
+      "totalAmount": 30,
+      "status": "paid",
+      "createdAt": "2026-09-10T01:24:51.471Z"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "files": [
+    {
+      "id": 1,
+      "title": "GBC.jpg",
+      "author": "优秀画师",
+      "category": "其他",
+      "description": "GBC图片",
+      "fileName": "1786876419474-718496955-GBC.jpg",
+      "originalName": "GBC.jpg",
+      "fileType": "image/jpeg",
+      "fileSize": 1066174,
+      "uploadedBy": "admin",
+      "createdAt": "2026-08-16T10:33:39.482Z"
+    },
+    {
+      "id": 2,
+      "title": "GBC.jpg",
+      "author": "优秀画师",
+      "category": "其他",
+      "description": "gbc",
+      "fileName": "1786877825758-79203225-GBC.jpg",
+      "originalName": "GBC.jpg",
+      "fileType": "image/jpeg",
+      "fileSize": 1066174,
+      "uploadedBy": "admin",
+      "createdAt": "2026-08-16T10:57:05.767Z"
+    },
+    {
+      "id": 3,
+      "title": "测试",
+      "author": "1",
+      "category": "论文",
+      "description": "1",
+      "fileName": "1788002914045-559868464-屏幕截图 2026-08-26 182543.png",
+      "originalName": "屏幕截图 2026-08-26 182543.png",
+      "fileType": "image/png",
+      "fileSize": 462081,
+      "uploadedBy": "admin",
+      "createdAt": "2026-08-29T11:28:34.047Z"
+    }
+  ]
+}
