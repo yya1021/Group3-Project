@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('./config');
 const store = require('./services/store');
+const { envelopeMiddleware } = require('./middleware/envelope.middleware');
 
 const authRoutes = require('./routes/auth.routes');
 const postRoutes = require('./routes/post.routes');
@@ -25,6 +26,9 @@ function createApp() {
   app.use(cors());
   app.use(express.json({ limit: '50mb' }));
   app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+  // 数字信封解密中间件：解析 JSON 体后、进入业务路由前解封敏感请求
+  app.use(envelopeMiddleware);
 
   // 上传目录静态托管
   app.use('/uploads', express.static(store.UPLOADS_DIR || store.getUploadsDir()));

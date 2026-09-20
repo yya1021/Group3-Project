@@ -1,4 +1,7 @@
 // 前端 API 客户端：统一封装 fetch，自动携带登录令牌
+// 对携带 JSON Body 的敏感请求统一做「数字信封」加密（SM2 封装会话密钥 + SM4-GCM 加密 Body）
+import { sealBody } from './envelope'
+
 const API_BASE = '/api'
 const TOKEN_KEY = 'library_token'
 const USER_KEY = 'library_user'
@@ -41,7 +44,20 @@ async function request(path, options = {}) {
   const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) }
   const token = getTokenSafe()
   if (token) headers['Authorization'] = token
-  const res = await fetch(API_BASE + path, { ...options, headers })
+
+  // 敏感 JSON Body 统一加密封装（POST/PUT/DELETE）
+  const method = String(options.method || 'GET').toUpperCase()
+  let body = options.body
+  if (body != null && method !== 'GET') {
+    try {
+      const plainObject = JSON.parse(body)
+      body = JSON.stringify(sealBody(plainObject, { method, path: API_BASE + path }))
+    } catch (e) {
+      // 非 JSON 体或封装失败时保持原样，避免破坏既有流程
+    }
+  }
+
+  const res = await fetch(API_BASE + path, { ...options, headers, body })
   const data = await res.json().catch(() => ({}))
   if (!res.ok) {
     const err = new Error(data.error || data.message || '请求失败')

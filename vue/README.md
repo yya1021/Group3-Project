@@ -8,44 +8,28 @@
 - 数据存储：`server/data/*.json`（JSON 文件，无需数据库）
 - 权限模型：RBAC 四角色（管理员 / 商户 / 普通用户 / 审计员）
 - 安全认证：管理员登录使用 TOTP（Microsoft Authenticator）二次认证
+- 传输加密：敏感请求 Body 使用「数字信封」（SM2 封装会话密钥 + SM4-GCM 加密）+ 时间窗/重放校验
 - 自动化测试：后端 API 测试（node:test + supertest）、前端单元测试（vitest）
 
 ## 快速开始
 
 > 注意：本项目自带依赖已安装，可直接启动，无需 `npm install`。
-> 如本地 `npm` 命令不可用（例如 PowerShell 执行策略限制或 npm 本体损坏），请使用下方「node 直启」方式。
 
-### 方式一：node 直启（推荐，无需 npm）
 
 开两个终端窗口：
 
 **终端 1 —— 启动后端（端口 3000）：**
 
-```powershell
+
 cd vue\vue\server
 node src\server.js
-```
 
 **终端 2 —— 启动前端（端口 5173）：**
 
-```powershell
 cd vue\vue
 node node_modules\vite\bin\vite.js client
-```
 
 启动后访问 http://localhost:5173 即可，前端会自动把 `/api` 代理到后端 3000 端口。
-
-### 方式二：npm 启动（npm 命令可用时）
-
-```powershell
-cd D:\code\vue\vue
-npm.cmd install        # 若 PowerShell 禁止运行 npm.ps1，改用 npm.cmd
-npm.cmd run dev        # 同时启动前后端
-```
-
-> PowerShell 下 `npm` 报「禁止运行脚本」时：
-> - 临时放开：`Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned`
-> - 或直接用 `npm.cmd` 替代 `npm`
 
 ## 运行测试
 
@@ -83,6 +67,38 @@ node node_modules\vitest\vitest.mjs run --root client
 - **审计员**登录进入审计日志页，可查看并导出 CSV 报告
 - 取消订单：管理员可取消任意订单，下单者本人可取消自己的订单（取消后恢复库存）
 
+## 传输加密（数字信封）
+
+在不改造底层 TLS 的前提下，对携带 JSON Body 的敏感请求（POST/PUT/DELETE）统一做应用层加密：
+
+1. 客户端每次请求生成随机 **SM4 会话密钥（128 bit）** 与 **Nonce（96 bit）**；
+2. 用 **SM4-GCM** 对 Body 做认证加密（同时提供机密性、完整性与抗篡改）；
+3. 用服务端 **SM2 公钥** 封装会话密钥，形成**数字信封**；
+4. 服务端完成「SM2 解封 → 时间窗校验 → 重放校验 → SM4-GCM 解密」。
+
+信封结构（JSON）：
+
+| 字段 | 含义 |
+| --- | --- |
+| `enc` | 固定为 `sm2-sm4-gcm` |
+| `v` | 协议版本 |
+| `ts` | 客户端时间戳（用于时间窗校验） |
+| `nonce` | Base64 的 96 bit 随机数（GCM IV，同时用于重放去重） |
+| `ek` | SM2 加密后的会话密钥（数字信封，C1C3C2 hex） |
+| `ct` | Base64 密文 |
+| `tag` | Base64 的 GCM 认证标签 |
+
+抓包可见的 Body 仅为上述信封字段，敏感明文不会出现。
+
+> ⚠️ **本机制不能替代生产环境 HTTPS。** 应用层加密仅保护 Body 的机密性与完整性，不提供服务器身份认证、前向保密与密钥的安全分发。生产环境必须叠加 HTTPS；SM2 私钥应通过环境变量 `SM2_PRIVATE_KEY` 注入或托管于 KMS/HSM，公钥经 HTTPS 下发或预置并定期轮换。
+
+关键实现：
+
+- 后端：`server/src/services/sm4-gcm.js`（SM4-GCM）、`server/src/services/envelope.js`（数字信封解封）、`server/src/services/replay.js`（时间窗 + 重放）、`server/src/middleware/envelope.middleware.js`（解密中间件，挂载于 `app.js`）。
+- 前端：`client/src/api/sm4gcm.js`、`client/src/api/envelope.js`，并在 `client/src/api/index.js` 的 `fetch` 封装层统一加密封装。
+
+> 国密算法依赖 `sm-crypto`（含其传递依赖 `jsbn`）。本项目已自带该依赖，直接使用即可。
+
 ## 项目结构
 
 ```
@@ -92,16 +108,16 @@ node node_modules\vitest\vitest.mjs run --root client
 │   │   ├── server.js        # 启动入口
 │   │   ├── app.js           # Express 应用（可被测试引用）
 │   │   ├── config.js        # 配置
-│   │   ├── middleware/      # 认证 + RBAC 权限中间件
+│   │   ├── middleware/      # 认证 + RBAC 权限 + 数字信封解密中间件
 │   │   ├── routes/          # 路由（认证/商品/订单/用户/角色/审计/文章/文件/评论）
-│   │   └── services/        # 数据存储、权限矩阵、审计日志、TOTP
+│   │   └── services/        # 数据存储、权限矩阵、审计日志、TOTP、数字信封、重放防护、SM4-GCM
 │   ├── data/                # JSON 数据文件（users/products/orders/audit-logs 等）
 │   ├── uploads/             # 上传文件
 │   └── tests/               # API 自动化测试
 └── client/                  # 前端 (Vue 3 + Vite)
     ├── public/              # 静态资源
     └── src/
-        ├── api/             # API 客户端 + 单元测试
+        ├── api/             # API 客户端（fetch 封装 + 数字信封加密）+ 单元测试
         ├── stores/          # 认证状态
         ├── router/          # 路由（含角色守卫）
         ├── views/           # 页面（商城/购物车/商户后台/管理后台/审计日志等）

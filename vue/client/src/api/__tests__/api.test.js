@@ -57,7 +57,7 @@ describe('api 客户端', () => {
     await expect(api.getPending()).rejects.toMatchObject({ status: 401, message: '未登录' })
   })
 
-  it('登录接口发送正确的请求体', async () => {
+  it('登录接口发送数字信封加密的请求体（不含明文）', async () => {
     const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ success: true, token: 't' }) })
     vi.stubGlobal('fetch', fetchMock)
 
@@ -66,6 +66,14 @@ describe('api 客户端', () => {
     const [url, opts] = fetchMock.mock.calls[0]
     expect(url).toBe('/api/login')
     expect(opts.method).toBe('POST')
-    expect(JSON.parse(opts.body)).toEqual({ username: 'admin', password: 'admin123' })
+    const body = JSON.parse(opts.body)
+    expect(body.enc).toBe('sm2-sm4-gcm')
+    expect(body.v).toBe(1)
+    expect(body.ts).toBeTypeOf('number')
+    expect(body.nonce).toBeTruthy()
+    expect(body.ek).toBeTruthy()
+    expect(body.ct).toBeTruthy()
+    expect(body.tag).toBeTruthy()
+    expect(JSON.stringify(body)).not.toContain('admin123')
   })
 })
