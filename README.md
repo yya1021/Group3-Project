@@ -13,7 +13,7 @@
 
 ## 快速开始
 
-> 注意：本项目自带依赖已安装，可直接启动，无需 `npm install`。
+> 注意：`node_modules/` 与构建产物已加入 `.gitignore` 不入库；首次克隆后请先在仓库根目录执行 `npm install` 安装依赖。
 
 
 开两个终端窗口：
@@ -21,12 +21,12 @@
 **终端 1 —— 启动后端（端口 3000）：**
 
 
-cd vue\vue\server
+cd vue\server
 node src\server.js
 
 **终端 2 —— 启动前端（端口 5173）：**
 
-cd vue\vue
+cd vue
 node node_modules\vite\bin\vite.js client
 
 启动后访问 http://localhost:5173 即可，前端会自动把 `/api` 代理到后端 3000 端口。
@@ -35,11 +35,11 @@ node node_modules\vite\bin\vite.js client
 
 ```powershell
 # 后端测试（node 直测，无需 npm）
-cd D:\code\vue\vue\server
+cd D:\code\vue\server
 node --test
 
 # 前端单元测试
-cd D:\code\vue\vue
+cd D:\code\vue
 node node_modules\vitest\vitest.mjs run --root client
 ```
 
