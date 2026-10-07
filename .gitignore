@@ -1,0 +1,41 @@
+# ===== 安全电子商务系统III 小组仓库 .gitignore 模板 =====
+# 用法：把本文件内容复制到仓库根目录的 .gitignore（注意文件名前面有个点），
+#       先提交 .gitignore，再提交代码。顺序反了后面清理会很麻烦。
+
+# --- 依赖与构建产物（Node）---
+node_modules/
+dist/
+build/
+.next/
+
+# --- Python ---
+__pycache__/
+*.pyc
+venv/
+.venv/
+env/
+
+# --- Java / Maven / Gradle ---
+target/
+*.class
+.gradle/
+*.jar
+
+# --- 密钥与本地配置（本课红线：一律不入库）---
+.env
+*.pem
+*.key
+*.p12
+application-local.yml
+
+# --- 日志与系统文件 ---
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# --- 临时实验文件 ---
+a.out
+*.o
+*.tmp
