@@ -43,6 +43,32 @@ cd D:\code\vue
 node node_modules\vitest\vitest.mjs run --root client
 ```
 
+## 安全扫描（第 7 周节点：SAST / DAST 与依赖扫描）
+
+仓库自带一套可复现的安全扫描工具（`security/`），一键产出**基线报告**与**漏洞清单**。
+
+**双击运行**（或在终端执行）根目录下的 `scan.bat` 即可：
+
+```bat
+scan.bat                 :: 完整扫描：SAST + 依赖扫描 + DAST
+scan.bat -Only sast,deps :: 只跑静态与依赖（最快，不用启动服务）
+scan.bat -Only dast      :: 只跑动态扫描（自动启动沙箱服务）
+```
+
+也可以在 PowerShell 中直接调用底层脚本：
+
+```powershell
+.\security\run-scan.ps1
+```
+
+- 扫描过程使用**临时沙箱数据目录**启动后端，不会改动 `server/data/` 与 `server/uploads/`。
+- 报告产物位于 `security/reports/`：`baseline-report.md`（基线报告）、`vulnerability-list.md`（漏洞清单）及三个扫描器的原始 JSON。
+- 工具说明与各扫描器的检测范围见 [security/README.md](./security/README.md)。
+
+> ⚠️ 当前基线扫描共发现 46 项问题（严重 5 / 高 20 / 中 19 / 低 2），其中最高优先级为
+> `server/data/*.json` 被纳入版本控制导致的口令哈希、TOTP 密钥与恢复码泄露。
+> **请勿在修复前将该仓库或该数据目录用于任何公开环境。** 修复排期见基线报告第 5 节。
+
 ## 默认账号
 
 | 用户名 | 密码 | 角色 | 说明 |

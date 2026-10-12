@@ -1,0 +1,401 @@
+{
+  "generatedAt": "2026-10-12T09:18:15+08:00",
+  "commit": "dfc7a27",
+  "env": {
+    "platform": "win32 x64",
+    "node": "v24.4.1",
+    "npm": "11.4.2"
+  },
+  "root": "C:\\Users\\31118\\Desktop\\group3-project",
+  "counts": {
+    "CRITICAL": 5,
+    "HIGH": 20,
+    "MEDIUM": 19,
+    "LOW": 2,
+    "INFO": 0
+  },
+  "total": 46,
+  "scanners": {
+    "sast": {
+      "meta": {
+        "scannedFiles": 81,
+        "rulesTotal": 22,
+        "rulesHit": 22,
+        "rulesWithoutHits": [],
+        "ruleHits": {
+          "SEC-CRED-01": 9,
+          "SEC-CRED-02": 1,
+          "SEC-CRED-03": 2,
+          "SEC-HASH-01": 1,
+          "SEC-HASH-02": 1,
+          "SEC-TOKEN-01": 1,
+          "SEC-AUTH-01": 2,
+          "SEC-CRYPTO-01": 1,
+          "SEC-XFF-01": 1,
+          "SEC-UPLOAD-01": 1,
+          "SEC-UPLOAD-02": 1,
+          "SEC-XSS-01": 1,
+          "SEC-CORS-01": 1,
+          "SEC-HDR-01": 1,
+          "SEC-ERR-01": 1,
+          "SEC-DOS-01": 1,
+          "SEC-RATE-01": 1,
+          "SEC-CSV-01": 1,
+          "SEC-STORAGE-01": 1,
+          "SEC-AUTHZ-01": 10,
+          "SEC-AUTHZ-02": 3,
+          "SEC-LOG-01": 1
+        }
+      },
+      "findings": 22
+    },
+    "deps": {
+      "meta": {
+        "lockfileVersion": 3,
+        "totalPackages": 255,
+        "productionPackages": 98,
+        "devOnlyPackages": 157,
+        "auditAvailable": true,
+        "auditRegistry": "https://registry.npmjs.org/",
+        "auditError": null,
+        "offlineTableSize": 11,
+        "source": "npm audit",
+        "auditCounts": {
+          "info": 0,
+          "low": 0,
+          "moderate": 5,
+          "high": 4,
+          "critical": 4,
+          "total": 13
+        },
+        "offlineHits": 1,
+        "crossCheck": "离线表补充命中 1 项",
+        "findingCount": 13,
+        "productionHitPackages": [
+          "@vue/server-renderer",
+          "body-parser",
+          "express",
+          "proxy-addr",
+          "qs",
+          "source-map-js",
+          "vue"
+        ]
+      },
+      "findings": 13
+    },
+    "dast": {
+      "meta": {
+        "baseUrl": "http://127.0.0.1:63699",
+        "targetKind": "local",
+        "writeProbesEnabled": true,
+        "probes": {
+          "headers": {
+            "status": 200,
+            "present": [
+              "access-control-allow-origin",
+              "connection",
+              "content-length",
+              "content-type",
+              "date",
+              "etag",
+              "keep-alive",
+              "x-powered-by"
+            ],
+            "missing": [
+              "x-content-type-options",
+              "x-frame-options",
+              "content-security-policy",
+              "referrer-policy",
+              "permissions-policy"
+            ]
+          },
+          "cors": {
+            "status": 200,
+            "origin": "https://evil.example",
+            "acao": "*"
+          },
+          "unauth": {
+            "open": [
+              {
+                "path": "/api/files",
+                "label": "文件清单",
+                "status": 200,
+                "bodyPreview": "{\"files\":[]}"
+              }
+            ],
+            "blocked": [
+              {
+                "path": "/api/me",
+                "label": "当前用户信息",
+                "status": 401,
+                "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+              },
+              {
+                "path": "/api/users",
+                "label": "用户清单",
+                "status": 401,
+                "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+              },
+              {
+                "path": "/api/orders",
+                "label": "订单清单",
+                "status": 401,
+                "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+              },
+              {
+                "path": "/api/audit-logs",
+                "label": "审计日志",
+                "status": 401,
+                "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+              },
+              {
+                "path": "/api/roles",
+                "label": "角色权限矩阵",
+                "status": 401,
+                "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+              },
+              {
+                "path": "/api/pending",
+                "label": "待审核文章队列",
+                "status": 401,
+                "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+              },
+              {
+                "path": "/api/comments",
+                "label": "全量评论（含待审）",
+                "status": 401,
+                "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+              },
+              {
+                "path": "/api/files/1",
+                "label": "文件详情",
+                "status": 404,
+                "bodyPreview": "{\"error\":\"文件未找到\"}"
+              },
+              {
+                "path": "/api/files/1/download",
+                "label": "文件下载",
+                "status": 404,
+                "bodyPreview": "{\"error\":\"文件未找到\"}"
+              }
+            ]
+          },
+          "register": {
+            "username": "secdemo_1791767898092",
+            "status": 201,
+            "gotToken": true,
+            "plaintextBody": true,
+            "bodyPreview": "{\"success\":true,\"token\":\"ba0ea327bc8ca2ee15116ad30ce0bacd6ecbb4f9aaf62bda47d8b3a664ad0f4a\",\"user\":{\"id\":2,\"username\":\"secdemo_1791767898092\",\"role\":\"user\",\"totpEnabled\":false,\"shopId\":null,\"createdAt\":\"2026-10-12T01:18:18.103Z\",\"recoveryCodesCount\":0…"
+          },
+          "privilegeEscalation": {
+            "allowed": [
+              {
+                "method": "GET",
+                "path": "/api/pending",
+                "label": "读取待审核文章队列",
+                "status": 200,
+                "bodyPreview": "{\"posts\":[]}"
+              },
+              {
+                "method": "GET",
+                "path": "/api/comments",
+                "label": "读取全量评论（含待审）",
+                "status": 200,
+                "bodyPreview": "{\"comments\":[]}"
+              },
+              {
+                "method": "POST",
+                "path": "/api/comments/1/approve",
+                "label": "审核通过评论",
+                "status": 404,
+                "bodyPreview": "{\"success\":false,\"error\":\"评论不存在\"}"
+              },
+              {
+                "method": "POST",
+                "path": "/api/comments/1/reject",
+                "label": "拒绝评论",
+                "status": 404,
+                "bodyPreview": "{\"success\":false,\"error\":\"评论不存在\"}"
+              },
+              {
+                "method": "POST",
+                "path": "/api/approve/1",
+                "label": "审核通过文章",
+                "status": 404,
+                "bodyPreview": "{\"success\":false,\"error\":\"文章不存在\"}"
+              },
+              {
+                "method": "POST",
+                "path": "/api/reject/1",
+                "label": "拒绝文章",
+                "status": 404,
+                "bodyPreview": "{\"success\":false,\"error\":\"文章不存在\"}"
+              },
+              {
+                "method": "DELETE",
+                "path": "/api/files/999999",
+                "label": "删除他人上传文件",
+                "status": 404,
+                "bodyPreview": "{\"success\":false,\"error\":\"文件不存在\"}"
+              },
+              {
+                "method": "DELETE",
+                "path": "/api/posts/999999",
+                "label": "删除文章",
+                "status": 404,
+                "bodyPreview": "{\"success\":false,\"error\":\"文章不存在\"}"
+              }
+            ],
+            "denied": [
+              {
+                "method": "GET",
+                "path": "/api/users",
+                "label": "读取用户清单（应 403）",
+                "status": 403,
+                "bodyPreview": "{\"success\":false,\"error\":\"无权限执行此操作\"}"
+              },
+              {
+                "method": "GET",
+                "path": "/api/audit-logs",
+                "label": "读取审计日志（应 403）",
+                "status": 403,
+                "bodyPreview": "{\"success\":false,\"error\":\"无权限执行此操作\"}"
+              }
+            ]
+          },
+          "loginThrottle": {
+            "attempts": 12,
+            "statuses": [
+              401,
+              401,
+              401,
+              401,
+              401,
+              401,
+              401,
+              401,
+              401,
+              401,
+              401,
+              401
+            ],
+            "elapsedMs": 20,
+            "throttled": false
+          },
+          "ipSpoof": {
+            "spoofed": "203.0.113.66",
+            "commentCreateStatus": 201,
+            "readBackStatus": 200,
+            "recordedIp": "203.0.113.66"
+          },
+          "uploadXss": {
+            "uploadStatus": 201,
+            "storedName": "1791767898138-269420495-dast-xss-1791767898138.html",
+            "fetchStatus": 200,
+            "fetchType": "text/html; charset=UTF-8",
+            "fetchHasPayload": true
+          },
+          "unauthFileDisclosure": {
+            "fileId": 1,
+            "listStatus": 200,
+            "detailStatus": 200,
+            "downloadStatus": 200,
+            "downloadBodyHasPayload": true,
+            "listMentionsFile": true
+          },
+          "pathTraversal": {
+            "uploadStatus": 201,
+            "requestedFileName": "a/../../dast-traversal-1791767898146.txt",
+            "storedName": "1791767898146-856354502-a/../../dast-traversal-1791767898146.txt",
+            "escapedPath": "C:\\Users\\31118\\AppData\\Local\\Temp\\sec-scan-1791767897709\\dast-traversal-1791767898146.txt",
+            "escapedExists": true,
+            "cleanedUp": true
+          },
+          "errorDisclosure": {
+            "status": 400,
+            "contentType": "text/html; charset=utf-8",
+            "leaksStack": true,
+            "bodyPreview": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <title>Error</title> </head> <body> <pre>SyntaxError: Expected double-quoted property name in JSON at position 22 (line 1 column 23)<br> &nbsp; &nbsp;at JSON.parse (&lt;anonymous&gt;)<br> &nbsp; &nbsp;at parse (C:\\Users\\31118\\Desktop\\group3-project\\node_modules\\body-parser\\lib\\types\\json.js:96:19)<br> &nbsp; &nbsp;at C:\\Users\\31118\\Des…"
+          },
+          "encryptionEnforced": {
+            "plaintextLoginStatus": 401,
+            "registerWithoutEnvelope": 201,
+            "enforced": false
+          },
+          "envelope": {
+            "CHK-ENVELOPE-ACCEPT": {
+              "result": "pass",
+              "actual": "HTTP 401 {\"success\":false,\"error\":\"用户名或密码错误\"}"
+            },
+            "CHK-ENVELOPE-REPLAY": {
+              "result": "pass",
+              "actual": "HTTP 409 {\"success\":false,\"error\":\"检测到重放请求\",\"code\":\"REPLAY\"}"
+            },
+            "CHK-ENVELOPE-INTEGRITY": {
+              "result": "pass",
+              "actual": "HTTP 400 {\"success\":false,\"error\":\"密文解密或完整性校验失败\",\"code\":\"INTEGRITY_FAILED\"}"
+            }
+          },
+          "fileMetadataExposure": {
+            "count": 2,
+            "sampleFields": [
+              "id",
+              "title",
+              "author",
+              "category",
+              "description",
+              "fileName",
+              "originalName",
+              "fileType",
+              "fileSize",
+              "uploadedBy",
+              "ip",
+              "createdAt"
+            ]
+          }
+        },
+        "serverIdentification": "Express"
+      },
+      "findings": 11,
+      "checks": [
+        {
+          "id": "CHK-REGISTER",
+          "name": "注册演示账号",
+          "expected": "201 且返回 token",
+          "actual": "HTTP 201，已取得普通用户令牌",
+          "result": "pass"
+        },
+        {
+          "id": "CHK-UPLOAD",
+          "name": "上传内容安全",
+          "expected": "拒绝 HTML/SVG 等可执行类型；文件名不可穿越",
+          "actual": "存在不安全行为（见上方发现）",
+          "result": "fail"
+        },
+        {
+          "id": "CHK-ENVELOPE-ACCEPT",
+          "name": "数字信封可正常解封（复用项目前端实现）",
+          "expected": "HTTP 401（凭据错误，说明信封已被成功解密）",
+          "actual": "HTTP 401 {\"success\":false,\"error\":\"用户名或密码错误\"}",
+          "result": "pass",
+          "evidence": "信封字段：enc, v, ts, nonce, ek, ct, tag；nonce=YToU8MlFkzeaFlBs"
+        },
+        {
+          "id": "CHK-ENVELOPE-REPLAY",
+          "name": "防重放（nonce 一次性）",
+          "expected": "HTTP 409（REPLAY）",
+          "actual": "HTTP 409 {\"success\":false,\"error\":\"检测到重放请求\",\"code\":\"REPLAY\"}",
+          "result": "pass"
+        },
+        {
+          "id": "CHK-ENVELOPE-INTEGRITY",
+          "name": "完整性校验（AAD 绑定被篡改即拒绝）",
+          "expected": "HTTP 400（完整性或时间窗校验失败）",
+          "actual": "HTTP 400 {\"success\":false,\"error\":\"密文解密或完整性校验失败\",\"code\":\"INTEGRITY_FAILED\"}",
+          "result": "pass"
+        }
+      ]
+    }
+  },
+  "fatal": null
+}

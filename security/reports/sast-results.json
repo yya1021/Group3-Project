@@ -1,0 +1,463 @@
+{
+  "generatedAt": "2026-10-12T09:18:15+08:00",
+  "meta": {
+    "scannedFiles": 81,
+    "rulesTotal": 22,
+    "rulesHit": 22,
+    "rulesWithoutHits": [],
+    "ruleHits": {
+      "SEC-CRED-01": 9,
+      "SEC-CRED-02": 1,
+      "SEC-CRED-03": 2,
+      "SEC-HASH-01": 1,
+      "SEC-HASH-02": 1,
+      "SEC-TOKEN-01": 1,
+      "SEC-AUTH-01": 2,
+      "SEC-CRYPTO-01": 1,
+      "SEC-XFF-01": 1,
+      "SEC-UPLOAD-01": 1,
+      "SEC-UPLOAD-02": 1,
+      "SEC-XSS-01": 1,
+      "SEC-CORS-01": 1,
+      "SEC-HDR-01": 1,
+      "SEC-ERR-01": 1,
+      "SEC-DOS-01": 1,
+      "SEC-RATE-01": 1,
+      "SEC-CSV-01": 1,
+      "SEC-STORAGE-01": 1,
+      "SEC-AUTHZ-01": 10,
+      "SEC-AUTHZ-02": 3,
+      "SEC-LOG-01": 1
+    }
+  },
+  "findings": [
+    {
+      "id": "SEC-CRED-01",
+      "title": "仓库中提交了凭据材料（口令哈希 / TOTP 密钥 / 恢复码哈希）（共 9 处）",
+      "severity": "CRITICAL",
+      "cwe": "CWE-798",
+      "category": "敏感信息泄露",
+      "scanner": "sast",
+      "location": {
+        "file": "server/data/admin.json",
+        "line": 6
+      },
+      "description": "server/data 目录被纳入版本控制，其中 users.json 直接保存了管理员与测试账号的口令哈希、管理员 TOTP 密钥（totpSecret 明文）以及一次性恢复码哈希；audit-logs.json 保存了历史操作日志。\n\n本次共命中 **9** 处，逐条如下。",
+      "evidence": "命中清单（文件:行号）：\n- server/data/admin.json:6 【口令哈希（SHA-256 无盐）：240be518fabd2724… → 已用内置弱口令字典**离线还原出明文：「admin123」**】\n    代码：\"password\": \"240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9\",\n- server/data/admin.json:13 【口令哈希（SHA-256 无盐）：4244ce9faf726a74… → 未被内置字典命中（不等于安全）】\n    代码：\"password\": \"4244ce9faf726a7443a4c6a552b766bc75d77728a4999866ef0e71988ba0f0a8\",\n- server/data/users.json:6 【口令哈希（SHA-256 无盐）：240be518fabd2724… → 已用内置弱口令字典**离线还原出明文：「admin123」**】\n    代码：\"password\": \"240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9\",\n- server/data/users.json:8 【TOTP 密钥以**明文**入库：「ZZR2NHRWZ75TC74DZNQ7S5B3R3R6WENM」→ 可直接生成有效动态码，二次认证失效】\n    代码：\"totpSecret\": \"ZZR2NHRWZ75TC74DZNQ7S5B3R3R6WENM\",\n- server/data/users.json:13 【恢复码哈希共 4 条已随仓库泄露（SHA-256 无盐，16 进制 64 bit 熵不足以抵抗穷举）】\n    代码：\"recoveryCodes\": [\n- server/data/users.json:23 【口令哈希（SHA-256 无盐）：03ac674216f3e15c… → 已用内置弱口令字典**离线还原出明文：「1234」**】\n    代码：\"password\": \"03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4\",\n- server/data/users.json:34 【口令哈希（SHA-256 无盐）：03ac674216f3e15c… → 已用内置弱口令字典**离线还原出明文：「1234」**】\n    代码：\"password\": \"03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4\",\n- server/data/users.json:45 【口令哈希（SHA-256 无盐）：5b92db4dfb561dc6… → 已用内置弱口令字典**离线还原出明文：「auditor123」**】\n    代码：\"password\": \"5b92db4dfb561dc69c949f34d36f5db0f8b30811be3a2949d85c5001279e9b1a\",\n- server/data/users.json:56 【口令哈希（SHA-256 无盐）：03ac674216f3e15c… → 已用内置弱口令字典**离线还原出明文：「1234」**】\n    代码：\"password\": \"03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4\",",
+      "impact": "任何能读取仓库的人（含后续被移出小组的成员、公开仓库的任何访问者）即可离线爆破口令、并用泄露的 TOTP 密钥直接生成有效动态码，从而绕过管理员二次认证完成登录。本扫描器已用内置弱口令字典对泄露的哈希做了离线还原验证（见下方证据），确认无需任何算力投入即可得到明文。",
+      "recommendation": "1) 立即从仓库移除 server/data/*.json 并加入 .gitignore（应用启动时会由 store.ensureStructure 自动重建）；2) 轮换已被泄露的口令、TOTP 密钥与恢复码；3) 历史提交中的密钥必须视为已泄露，需重写历史或直接换密钥；4) 口令存储改为 bcrypt/Argon2 加盐哈希（见 SEC-HASH-01）。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "命中数量：9"
+      ]
+    },
+    {
+      "id": "SEC-AUTH-01",
+      "title": "登录逻辑保留明文口令比对分支（共 2 处）",
+      "severity": "HIGH",
+      "cwe": "CWE-287",
+      "category": "认证缺陷",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/routes/auth.routes.js",
+        "line": 32
+      },
+      "description": "登录时同时接受「已哈希口令」与「明文口令」两种存储格式，用于兼容历史数据并自动升级。\n\n本次共命中 **2** 处，逐条如下。",
+      "evidence": "命中清单（文件:行号）：\n- server/src/routes/auth.routes.js:32 \n    代码：const passwordMatches = user.password === hashedInput || user.password === password;\n- server/src/routes/auth.routes.js:39 \n    代码：if (user.password === password) {",
+      "impact": "任何能把明文写入 users.json 的路径（例如数据文件被篡改、或旧数据迁移漏洞）都会直接形成认证绕过；同时明文比较不具备时间恒定特性，存在时序侧信道。",
+      "recommendation": "移除明文比较分支；历史明文口令改由一次性迁移脚本处理，或强制重置口令。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "命中数量：2"
+      ]
+    },
+    {
+      "id": "SEC-AUTHZ-01",
+      "title": "接口仅校验「已登录」，缺少细粒度权限校验（越权）（共 10 处）",
+      "severity": "HIGH",
+      "cwe": "CWE-862",
+      "category": "权限控制缺陷",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/routes/comment.routes.js",
+        "line": 9
+      },
+      "description": "以下路由只挂了 verifyToken，没有 requirePermission：任何自行注册的普通用户（甚至商户）都能调用它们，而这些接口在权限矩阵语义上属于管理/审核类操作。（已按白名单排除业务上确需公开的端点，以及「仅操作本人数据」的自助端点，见文件末尾说明。）\n\n本次共命中 **10** 处，逐条如下。",
+      "evidence": "命中清单（文件:行号）：\n- server/src/routes/comment.routes.js:9 【GET /api/comments】\n    代码：router.get('/comments', verifyToken, (req, res) => {\n- server/src/routes/comment.routes.js:48 【POST /api/comments/:id/approve】\n    代码：router.post('/comments/:id/approve', verifyToken, (req, res) => {\n- server/src/routes/comment.routes.js:58 【POST /api/comments/:id/reject】\n    代码：router.post('/comments/:id/reject', verifyToken, (req, res) => {\n- server/src/routes/comment.routes.js:68 【DELETE /api/comments/:id】\n    代码：router.delete('/comments/:id', verifyToken, (req, res) => {\n- server/src/routes/file.routes.js:61 【DELETE /api/files/:id】\n    代码：router.delete('/files/:id', verifyToken, (req, res) => {\n- server/src/routes/post.routes.js:39 【GET /api/pending】\n    代码：router.get('/pending', verifyToken, (req, res) => res.json({ posts: store.readPendingPosts() }));\n- server/src/routes/post.routes.js:42 【POST /api/approve/:id】\n    代码：router.post('/approve/:id', verifyToken, (req, res) => {\n- server/src/routes/post.routes.js:67 【POST /api/reject/:id】\n    代码：router.post('/reject/:id', verifyToken, (req, res) => {\n- server/src/routes/post.routes.js:77 【PUT /api/update/:id】\n    代码：router.put('/update/:id', verifyToken, (req, res) => {\n- server/src/routes/post.routes.js:97 【DELETE /api/posts/:id】\n    代码：router.delete('/posts/:id', verifyToken, (req, res) => {",
+      "impact": "普通用户可越权审核或删除文章与评论、删除他人上传的文件；结合公开注册接口（POST /api/register）可零门槛获得攻击凭据，形成完整的越权链。",
+      "recommendation": "为每条路由显式声明所需资源与动作（requirePermission('post','update') 等），并补充自动化测试（本项目 tests/rbac.test.js 可扩展）覆盖「低权限角色调用高权限接口应 403」。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "命中数量：10"
+      ]
+    },
+    {
+      "id": "SEC-AUTHZ-02",
+      "title": "敏感接口完全未鉴权即可访问（共 3 处）",
+      "severity": "HIGH",
+      "cwe": "CWE-306",
+      "category": "认证缺陷",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/routes/file.routes.js",
+        "line": 42
+      },
+      "description": "以下路由既没有 verifyToken 也没有权限校验，匿名请求即可直接读取业务数据：文件清单/文件详情/文件下载（这三条即为本次命中的全部端点）。（已按白名单排除商品浏览、文章浏览、登录注册等业务上确需公开的端点，见文件末尾说明。）\n\n本次共命中 **3** 处，逐条如下。",
+      "evidence": "命中清单（文件:行号）：\n- server/src/routes/file.routes.js:42 【GET /api/files】\n    代码：router.get('/files', (req, res) => res.json({ files: store.readFiles() }));\n- server/src/routes/file.routes.js:45 【GET /api/files/:id】\n    代码：router.get('/files/:id', (req, res) => {\n- server/src/routes/file.routes.js:52 【GET /api/files/:id/download】\n    代码：router.get('/files/:id/download', (req, res) => {",
+      "impact": "匿名即可枚举并下载服务器上传目录中的全部文件（含业务附件），文件下载接口还会把 originalName 作为下载文件名回传，构成未授权的数据外泄面。",
+      "recommendation": "按「默认拒绝」原则为文件相关路由补上鉴权，并叠加资源归属校验；确实需要公开的接口单独列出白名单并在路由上注释说明。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "命中数量：3"
+      ]
+    },
+    {
+      "id": "SEC-CRED-02",
+      "title": "源码内硬编码默认 SM2 私钥",
+      "severity": "HIGH",
+      "cwe": "CWE-1188",
+      "category": "敏感信息泄露",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/services/envelope.js",
+        "line": 24
+      },
+      "description": "数字信封服务的默认 SM2 私钥以字面量形式硬编码在源码中，仅在未设置环境变量 SM2_PRIVATE_KEY 时使用，但该默认值已随仓库公开，且与前端预置公钥配对。",
+      "evidence": "代码片段：\n  22 | \n  23 | // 默认 SM2 私钥（仅用于演示/测试；生产必须通过环境变量 SM2_PRIVATE_KEY 覆盖）\n> 24 | const DEFAULT_PRIVATE_KEY = '5c72bb61a45ba08f66a33725e5aa127949f94f17e994a5f5158b6dc7d3697ca4';\n  25 | const PRIVATE_KEY = process.env.SM2_PRIVATE_KEY || DEFAULT_PRIVATE_KEY;\n  26 | \n原始行：const DEFAULT_PRIVATE_KEY = '5c72bb61a45ba08f66a33725e5aa127949f94f17e994a5f5158b6dc7d3697ca4';",
+      "impact": "攻击者持有私钥即可解开任意抓包得到的数字信封，恢复被 SM4-GCM 加密的请求体明文，Week 4 的应用层机密性保护对公开仓库部署完全失效。",
+      "recommendation": "移除内置默认私钥并在启动时强制要求 SM2_PRIVATE_KEY；缺失时直接拒绝启动。生产环境应将私钥托管于 KMS/HSM。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-CRED-03",
+      "title": "内置默认管理员账号使用弱口令 admin123（共 2 处）",
+      "severity": "HIGH",
+      "cwe": "CWE-798",
+      "category": "默认凭据",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/services/store.js",
+        "line": 53
+      },
+      "description": "store.ensureStructure 在数据文件缺失时自动创建口令为 admin123 的管理员账号，且 README 中公开列出该默认凭据。\n\n本次共命中 **2** 处，逐条如下。",
+      "evidence": "命中清单（文件:行号）：\n- server/src/services/store.js:53 \n    代码：password: hashPassword('admin123'),\n- server/src/services/store.js:69 \n    代码：password: hashPassword('admin123'),",
+      "impact": "未修改默认口令的部署可被直接接管；管理员又持有商品、用户、角色权限矩阵的全部权限，等同于系统完全失陷。",
+      "recommendation": "首次启动时生成随机强口令并打印/写入一次性文件，强制首登改密；禁止在文档中公布生产凭据。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "命中数量：2"
+      ]
+    },
+    {
+      "id": "SEC-CRYPTO-01",
+      "title": "数字信封未强制启用，明文请求可绕过应用层加密",
+      "severity": "HIGH",
+      "cwe": "CWE-693",
+      "category": "安全控制缺失",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/middleware/envelope.middleware.js",
+        "line": 11
+      },
+      "description": "解密中间件对「非信封」请求体一律直接放行，即应用层加密是可选而非强制；服务端也没有校验收到的敏感请求必须为信封格式。",
+      "evidence": "代码片段：\n   9 | function envelopeMiddleware(req, res, next) {\n  10 |   // 仅处理带 JSON 信封体的请求\n> 11 |   if (!envelope.isEnvelope(req.body)) return next();\n  12 | \n  13 |   const { ts, nonce } = req.body;\n原始行：  if (!envelope.isEnvelope(req.body)) return next();",
+      "impact": "攻击者（或任何脚本）只要发送明文 JSON 即可完全跳过 SM2/SM4-GCM 保护，Week 4 的「应用层安全隧道」可被一行代码降级绕过，加密带来的机密性/完整性收益为零。",
+      "recommendation": "对敏感路由（POST/PUT/DELETE）强制要求信封格式，非信封请求直接 400 拒绝；或在网关层统一做「信封或拒绝」的策略，并保留显式的白名单例外。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-HASH-01",
+      "title": "用户口令使用无盐单轮 SHA-256 哈希存储",
+      "severity": "HIGH",
+      "cwe": "CWE-916",
+      "category": "口令保护不当",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/services/store.js",
+        "line": 110
+      },
+      "description": "store.hashPassword 直接对整个口令做一次 SHA-256，未加盐、未使用慢哈希函数（bcrypt/scrypt/Argon2）。",
+      "evidence": "代码片段：\n  108 | \n  109 | function hashPassword(password) {\n> 110 |   return crypto.createHash('sha256').update(String(password)).digest('hex');\n  111 | }\n  112 | \n原始行：  return crypto.createHash('sha256').update(String(password)).digest('hex');",
+      "impact": "相同口令得到相同哈希（彩虹表/批量比对），GPU 每秒可尝试数十亿次；结合已入库的 users.json，本扫描器实测用一份 30 条的内置弱口令字典即还原出管理员与测试账号的明文口令（还原结果见 SEC-CRED-01 的证据），说明攻击者无需任何算力投入即可得手。",
+      "recommendation": "改用 bcrypt（cost>=10）或 Argon2id，并为每条口令生成独立随机盐；历史哈希在用户下次登录时透明升级。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-RATE-01",
+      "title": "登录与 TOTP 校验接口无速率限制、无失败锁定",
+      "severity": "HIGH",
+      "cwe": "CWE-307",
+      "category": "认证缺陷",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/routes/auth.routes.js",
+        "line": 20
+      },
+      "description": "POST /login 与 POST /login/totp 均未引入任何限流、验证码或失败计数锁定机制，代码中也不存在相关中间件。",
+      "evidence": "说明：登录路由中未见任何限流/锁定逻辑\n代码片段：\n  18 | // - 普通用户/商户/审计员：直接返回 token\n  19 | // - 管理员：进入 TOTP 二次认证（已绑定）或 TOTP 绑定流程（首次）\n> 20 | router.post('/login', (req, res) => {\n  21 |   const { username, password } = req.body;\n  22 |   if (!username || !password) return res.status(400).json({ success: false, error: '用户名和密码不能为空' });\n原始行：router.post('/login', (req, res) => {",
+      "impact": "可对账号口令做高速字典爆破；TOTP 为 6 位数字且服务端允许 ±1 个时间窗（3 个候选码），在无限次尝试下 10^6/3 量级的猜测可在可接受时间内命中，二次认证被实质性削弱。",
+      "recommendation": "按账号 + 来源 IP 做指数退避与失败锁定（如 5 次失败锁 15 分钟），并对 /login/totp 单独限流；接入验证码或设备指纹，同时对失败告警。",
+      "confidence": "medium",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-UPLOAD-01",
+      "title": "文件上传未限制类型/扩展名，且上传目录被静态托管（可致存储型 XSS）",
+      "severity": "HIGH",
+      "cwe": "CWE-434",
+      "category": "不受限文件上传",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/routes/file.routes.js",
+        "line": 12
+      },
+      "description": "上传接口只校验大小上限（50MB），对 fileType/扩展名/魔数没有任何白名单校验；同时 app.js 将上传目录以 express.static 直接对外托管。",
+      "evidence": "说明：上传处理函数内未见任何类型/扩展名白名单校验\n代码片段：\n  10 | \n  11 | // 上传文件（Base64 传输）\n> 12 | router.post('/files', verifyToken, (req, res) => {\n  13 |   const { title, author, category, description, fileName, fileData, fileType } = req.body;\n  14 |   if (!title || !fileName || !fileData) return res.status(400).json({ success: false, error: '标题和文件不能为空' });\n原始行：router.post('/files', verifyToken, (req, res) => {",
+      "impact": "攻击者可上传 .html/.svg 等浏览器可执行内容，并通过 /uploads/<uuid-name> 直接访问，形成同源下的存储型 XSS，可窃取 localStorage 中的登录令牌（见 SEC-STORAGE-01），实现会话接管。",
+      "recommendation": "建立扩展名 + MIME + 文件魔数三重白名单；上传目录禁止直接执行/渲染，对下载响应统一设置 Content-Disposition: attachment 与 X-Content-Type-Options: nosniff；将上传文件存放在 Web 根目录之外，通过鉴权接口按 ID 读取。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-UPLOAD-02",
+      "title": "上传文件名参与路径拼接且未做规范化校验（目录穿越写文件）",
+      "severity": "HIGH",
+      "cwe": "CWE-22",
+      "category": "路径穿越",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/routes/file.routes.js",
+        "line": 18
+      },
+      "description": "落盘路径由用户可控的 fileName 直接拼接而成：uniqueFileName = 前缀 + fileName，随后 path.join(uploadsDir, uniqueFileName) 未使用 path.basename 剥离目录分隔符，也未校验结果是否仍在允许目录内。",
+      "evidence": "代码片段：\n  16 |   try { fileBuffer = Buffer.from(fileData, 'base64'); } catch (e) { return res.status(400).json({ success: false, error: '文件数据格式错误' }); }\n  17 |   if (fileBuffer.length > config.MAX_FILE_SIZE) return res.status(400).json({ success: false, error: '文件大小不能超过50MB' });\n> 18 |   const uniqueFileName = Date.now() + '-' + Math.round(Math.random() * 1E9) + '-' + fileName;\n  19 |   const filePath = path.join(store.getUploadsDir(), uniqueFileName);\n  20 |   try { fs.writeFileSync(filePath, fileBuffer); } catch (e) { return res.status(500).json({ success: false, error: '保存文件失败' }); }\n原始行：  const uniqueFileName = Date.now() + '-' + Math.round(Math.random() * 1E9) + '-' + fileName;",
+      "impact": "fileName 传入如 a/../../x.txt 时 path.join 会把 .. 归一化，最终文件写到上传目录之外，可覆盖应用文件（例如覆写被 require 的业务代码）进而在服务器上执行任意代码。",
+      "recommendation": "用 path.basename(fileName) 只取基名，或改为服务端自行生成文件名（保留原名只用于展示）；落盘前用 path.resolve 校验结果必须以 path.resolve(uploadsDir) + path.sep 开头，否则拒绝。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-CORS-01",
+      "title": "CORS 允许任意来源",
+      "severity": "MEDIUM",
+      "cwe": "CWE-942",
+      "category": "安全配置错误",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/app.js",
+        "line": 26
+      },
+      "description": "Express 直接使用 cors() 默认配置，Access-Control-Allow-Origin 对任意来源回显/放通。",
+      "evidence": "代码片段：\n  24 | \n  25 |   // 中间件\n> 26 |   app.use(cors());\n  27 |   app.use(express.json({ limit: '50mb' }));\n  28 |   app.use(express.urlencoded({ extended: true, limit: '50mb' }));\n原始行：  app.use(cors());",
+      "impact": "任意第三方站点可在受害者浏览器中直接读取本接口响应；当前令牌走 Authorization 头而非 Cookie，风险被削弱，但一旦引入 Cookie 会话或改动鉴权方式即形成实质越权读取。",
+      "recommendation": "把 cors() 收敛为显式来源白名单（origin 回调或 origin 数组），并限制 allowMethods/allowHeaders。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-CSV-01",
+      "title": "审计报告 CSV 导出存在公式注入（CSV Injection）",
+      "severity": "MEDIUM",
+      "cwe": "CWE-1236",
+      "category": "注入缺陷",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/routes/audit.routes.js",
+        "line": 34
+      },
+      "description": "导出逻辑只对 \" 和 , 与换行做转义，未处理以 = + - @ 开头、会被 Excel 当作公式求值的单元格；而 operator/detail 等列的内容部分来自用户可控输入（用户名、商品名）。",
+      "evidence": "说明：CSV 转义仅处理引号/逗号/换行，未做公式注入防护\n代码片段：\n  32 |     .join('\\n');\n  33 | \n> 34 |   res.type('text/csv; charset=utf-8');\n  35 |   res.setHeader('Content-Disposition', 'attachment; filename=\"audit-report.csv\"');\n  36 |   res.send('\\uFEFF' + csv);\n原始行：  res.type('text/csv; charset=utf-8');",
+      "impact": "攻击者可注册用户名为 =cmd|' /C calc'!A1 之类的账号或创建同名商品，审计员下载 CSV 用 Excel 打开时触发公式执行（DDE/远程数据拉取），在审计员工位形成代码执行。",
+      "recommendation": "对每个单元格：若以 = + - @ 或制表符/回车开头，前置单引号或加前缀空格；更稳妥的做法是导出为不带公式语义的格式（如 JSON），或在文档中明确用「文本导入」方式打开。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-DOS-01",
+      "title": "请求体上限 50MB 且订单接口存在秒级阻塞延时",
+      "severity": "MEDIUM",
+      "cwe": "CWE-400",
+      "category": "资源耗尽",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/app.js",
+        "line": 27
+      },
+      "description": "JSON/urlencoded 解析上限均为 50MB，远超业务需要（上传走 Base64 复用同一通道）；上传接口亦按 50MB 计。",
+      "evidence": "代码片段：\n  25 |   // 中间件\n  26 |   app.use(cors());\n> 27 |   app.use(express.json({ limit: '50mb' }));\n  28 |   app.use(express.urlencoded({ extended: true, limit: '50mb' }));\n  29 | \n原始行：  app.use(express.json({ limit: '50mb' }));",
+      "impact": "少量并发即可用超大请求体耗尽内存/CPU；叠加订单接口内 1.5~3.5s 的串行等待（order.routes.js），容易形成请求堆积与雪崩。",
+      "recommendation": "按路由收紧 body 上限（例如普通 JSON 256KB、上传接口单独放宽），并对上传与下单接口做并发/速率限制；订单接口的模拟延时改为可配置并默认关闭。",
+      "confidence": "medium",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-ERR-01",
+      "title": "缺少统一错误处理中间件，异常堆栈会回传客户端",
+      "severity": "MEDIUM",
+      "cwe": "CWE-209",
+      "category": "信息泄露",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/app.js",
+        "line": 57
+      },
+      "description": "app.js 未注册四参数错误处理中间件，非生产环境下 Express 默认错误处理器会把异常堆栈与源码路径直接返回给调用方。",
+      "evidence": "说明：在所有路由与 404 兜底之后，未注册四参数错误处理中间件\n代码片段：\n  55 | \n  56 |   // 404\n> 57 |   app.use((req, res) => res.status(404).json({ success: false, error: '接口不存在' }));\n  58 | \n  59 |   return app;\n原始行：  app.use((req, res) => res.status(404).json({ success: false, error: '接口不存在' }));",
+      "impact": "攻击者可借堆栈获取框架版本、目录结构与代码片段，为后续利用提供精准线索。",
+      "recommendation": "注册统一错误处理中间件，只返回错误码与人类可读提示，堆栈仅记入服务端日志；生产环境同样强制 NODE_ENV=production。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-HASH-02",
+      "title": "TOTP 恢复码使用无盐 SHA-256 哈希存储",
+      "severity": "MEDIUM",
+      "cwe": "CWE-916",
+      "category": "口令保护不当",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/services/totp.js",
+        "line": 92
+      },
+      "description": "一次性恢复码只做了大写归一化后单轮 SHA-256，恢复码本身是 16 位十六进制（64 bit），抗爆破强度不足。",
+      "evidence": "代码片段：\n  90 | // 恢复码只存哈希，不存明文（与密码相同的 sha256 策略，统一大写后哈希）\n  91 | function hashRecoveryCode(code) {\n> 92 |   return crypto.createHash('sha256').update(String(code).trim().toUpperCase()).digest('hex');\n  93 | }\n  94 | \n原始行：  return crypto.createHash('sha256').update(String(code).trim().toUpperCase()).digest('hex');",
+      "impact": "恢复码哈希泄露后可在较短时间内被离线穷举，绕过 TOTP 二次认证直接登录管理员账号。",
+      "recommendation": "恢复码使用 bcrypt/Argon2 加盐哈希；同时提升恢复码熵值（建议 >=128 bit 随机）。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-HDR-01",
+      "title": "缺少安全响应头（未启用 helmet 等）",
+      "severity": "MEDIUM",
+      "cwe": "CWE-693",
+      "category": "安全配置错误",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/app.js",
+        "line": 19
+      },
+      "description": "应用未设置 Content-Security-Policy、X-Content-Type-Options、X-Frame-Options、Referrer-Policy 等响应头，也未使用 helmet 中间件统一加固。",
+      "evidence": "说明：应用入口未引入 helmet，全局也未手动设置 nosniff / CSP / X-Frame-Options 等安全响应头\n代码片段：\n  17 | const auditRoutes = require('./routes/audit.routes');\n  18 | \n> 19 | function createApp() {\n  20 |   const app = express();\n  21 | \n原始行：function createApp() {",
+      "impact": "缺少 nosniff 会让上传的 HTML/SVG 被浏览器按内容渲染；缺少 CSP 会放大 XSS 危害；缺少 X-Frame-Options 使页面可被第三方站点 iframe 嵌套（点击劫持）。",
+      "recommendation": "引入 helmet 并至少开启 contentSecurityPolicy、noSniff、frameguard、referrerPolicy 与 HSTS（HTTPS 部署时）。详见《漏洞清单》中与之交叉验证的动态发现。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-LOG-01",
+      "title": "审计日志以明文 JSON 落盘且随仓库提交",
+      "severity": "MEDIUM",
+      "cwe": "CWE-532",
+      "category": "日志与审计缺陷",
+      "scanner": "sast",
+      "location": {
+        "file": "server/data/audit-logs.json",
+        "line": 2
+      },
+      "description": "审计日志写入 server/data/audit-logs.json，该文件已在版本库中（含历史操作者、时间与 IP）。",
+      "evidence": "说明：审计日志文件已随仓库提交，其中包含 86 条历史操作记录（operator / role / ip / timestamp 均为明文）\n代码片段：\n  1 | {\n> 2 |   \"logs\": [\n  3 |     {\n  4 |       \"id\": 1,\n原始行：  \"logs\": [",
+      "impact": "审计数据可被任何能读取仓库的人获取与比对，且日志文件可被直接编辑而缺乏防篡改（无哈希链/签名）。",
+      "recommendation": "日志目录移出版本控制并限制文件权限；引入追加写入 + 哈希链或集中式日志系统以保证审计完整性。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-TOKEN-01",
+      "title": "会话令牌随机性依赖 Math.random()",
+      "severity": "MEDIUM",
+      "cwe": "CWE-338",
+      "category": "弱随机数",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/services/store.js",
+        "line": 114
+      },
+      "description": "store.generateToken 用 username + Date.now() + Math.random() 做 SHA-256 生成登录令牌，其中只有 Math.random() 提供随机性。",
+      "evidence": "代码片段：\n  112 | \n  113 | function generateToken(username) {\n> 114 |   return crypto.createHash('sha256').update(username + Date.now() + Math.random()).digest('hex');\n  115 | }\n  116 | \n原始行：  return crypto.createHash('sha256').update(username + Date.now() + Math.random()).digest('hex');",
+      "impact": "Math.random() 不是密码学安全随机源，且 V8 的实现可被观测/预测；令牌可预测意味着攻击者能伪造任一用户（含管理员）的会话，无需口令。",
+      "recommendation": "改用 crypto.randomBytes(32)（或 crypto.randomUUID()）生成令牌，并考虑改为服务端签名的短时效令牌。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-XFF-01",
+      "title": "无条件信任客户端伪造的代理 IP 头，审计日志可被伪造",
+      "severity": "MEDIUM",
+      "cwe": "CWE-348",
+      "category": "日志与审计缺陷",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/utils/get-client-ip.js",
+        "line": 7
+      },
+      "description": "getClientIp 依次取 cf-connecting-ip / x-forwarded-for 的请求头，未校验请求是否真的来自可信反向代理（代码不区分直连与经代理两种情况，也不校验来源 IP 是否属于代理网段）。",
+      "evidence": "代码片段：\n  5 |   if (cf) return String(cf).split(',')[0].trim();\n  6 |   // 反向代理（nginx / ngrok）注入的 X-Forwarded-For，最左侧为真实客户端\n> 7 |   const xff = req.headers['x-forwarded-for'];\n  8 |   if (xff) return String(xff).split(',')[0].trim();\n  9 |   // 直连时回退到 socket 地址（去掉 IPv4 映射前缀）\n原始行：  const xff = req.headers['x-forwarded-for'];",
+      "impact": "攻击者可自行带上 X-Forwarded-For: 1.2.3.4 让审计日志记录任意 IP，导致溯源、封禁与责任认定全部失效；审计报告的证明力被破坏。",
+      "recommendation": "仅在请求来源属于受信代理地址段时才采信转发头（Express 的 app.set(\"trust proxy\", ...) 配合可信网段），或直接记录 socket 地址并单独保存转发头用于排查。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-XSS-01",
+      "title": "商品名称未转义拼接进 SVG 响应（存储型 XSS）",
+      "severity": "MEDIUM",
+      "cwe": "CWE-79",
+      "category": "跨站脚本",
+      "scanner": "sast",
+      "location": {
+        "file": "server/src/routes/product.routes.js",
+        "line": 53
+      },
+      "description": "商品图片接口用模板字符串把商品名 name 直接插入 SVG 文本节点，并以 image/svg+xml 返回；name 来自商品库、可由管理员或商户通过商品新增/修改接口写入，服务端未做任何转义。",
+      "evidence": "代码片段：\n  51 |   const colors = ['#457b9d', '#e63946', '#2a9d8f', '#e76f51', '#6d597a', '#b56576'];\n  52 |   const color = colors[id % colors.length];\n> 53 |   const svg = `<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"300\" height=\"300\" viewBox=\"0 0 300 300\"><rect width=\"300\" height=\"300\" fill=\"${color}\"/><text x=\"150\" y=\"150\" font-size=\"22\" fill=\"#fff\" text-anchor=\"middle\" font-family=\"sans-serif\">${name}</text></svg>`;\n  54 |   res.type('image/svg+xml').send(svg);\n  55 | });\n原始行：  const svg = `<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"300\" height=\"300\" viewBox=\"0 0 300 300\"><rect width=\"300\" height=\"300\" fill=\"${color}\"/><text x=\"150\" y=\"150\" font-size=\"22\" fill=\"#fff\" text-anchor=\"middle\" font-family=\"sans-serif\">${name}</text></svg>`;",
+      "impact": "商户可保存形如 </text><script>…</script> 的商品名，直接访问 /api/products/photo/<id> 即在同源下执行脚本，可读取 localStorage 中的登录令牌并冒用访客/管理员身份。",
+      "recommendation": "对插入到 SVG/HTML 的数据做实体转义（& < > \" ），或改为返回固定占位图并按 ID 映射颜色/文字；同时给该响应加 Content-Security-Policy 与 X-Content-Type-Options: nosniff。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "SEC-STORAGE-01",
+      "title": "前端把登录令牌存于 localStorage",
+      "severity": "LOW",
+      "cwe": "CWE-922",
+      "category": "敏感数据存储",
+      "scanner": "sast",
+      "location": {
+        "file": "client/src/api/index.js",
+        "line": 18
+      },
+      "description": "登录令牌以明文写入 localStorage，任意同源脚本都可读取。",
+      "evidence": "代码片段：\n  16 | \n  17 | function setToken(token) {\n> 18 |   if (token) localStorage.setItem(TOKEN_KEY, token)\n  19 |   else localStorage.removeItem(TOKEN_KEY)\n  20 | }\n原始行：  if (token) localStorage.setItem(TOKEN_KEY, token)",
+      "impact": "一旦存在 XSS（本项目已确认 SEC-UPLOAD-01 / SEC-XSS-01 两条路径），令牌会被直接窃取，且不随浏览器关闭失效，会话可被长期复用。",
+      "recommendation": "服务端改为 HttpOnly + Secure + SameSite 的 Cookie 承载会话；若必须用令牌，则缩短有效期并配合刷新令牌轮换。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    }
+  ]
+}

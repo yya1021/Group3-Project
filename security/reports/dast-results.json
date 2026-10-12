@@ -1,0 +1,513 @@
+{
+  "generatedAt": "2026-10-12T09:18:15+08:00",
+  "meta": {
+    "baseUrl": "http://127.0.0.1:63699",
+    "targetKind": "local",
+    "writeProbesEnabled": true,
+    "probes": {
+      "headers": {
+        "status": 200,
+        "present": [
+          "access-control-allow-origin",
+          "connection",
+          "content-length",
+          "content-type",
+          "date",
+          "etag",
+          "keep-alive",
+          "x-powered-by"
+        ],
+        "missing": [
+          "x-content-type-options",
+          "x-frame-options",
+          "content-security-policy",
+          "referrer-policy",
+          "permissions-policy"
+        ]
+      },
+      "cors": {
+        "status": 200,
+        "origin": "https://evil.example",
+        "acao": "*"
+      },
+      "unauth": {
+        "open": [
+          {
+            "path": "/api/files",
+            "label": "文件清单",
+            "status": 200,
+            "bodyPreview": "{\"files\":[]}"
+          }
+        ],
+        "blocked": [
+          {
+            "path": "/api/me",
+            "label": "当前用户信息",
+            "status": 401,
+            "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+          },
+          {
+            "path": "/api/users",
+            "label": "用户清单",
+            "status": 401,
+            "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+          },
+          {
+            "path": "/api/orders",
+            "label": "订单清单",
+            "status": 401,
+            "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+          },
+          {
+            "path": "/api/audit-logs",
+            "label": "审计日志",
+            "status": 401,
+            "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+          },
+          {
+            "path": "/api/roles",
+            "label": "角色权限矩阵",
+            "status": 401,
+            "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+          },
+          {
+            "path": "/api/pending",
+            "label": "待审核文章队列",
+            "status": 401,
+            "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+          },
+          {
+            "path": "/api/comments",
+            "label": "全量评论（含待审）",
+            "status": 401,
+            "bodyPreview": "{\"success\":false,\"error\":\"未登录\"}"
+          },
+          {
+            "path": "/api/files/1",
+            "label": "文件详情",
+            "status": 404,
+            "bodyPreview": "{\"error\":\"文件未找到\"}"
+          },
+          {
+            "path": "/api/files/1/download",
+            "label": "文件下载",
+            "status": 404,
+            "bodyPreview": "{\"error\":\"文件未找到\"}"
+          }
+        ]
+      },
+      "register": {
+        "username": "secdemo_1791767898092",
+        "status": 201,
+        "gotToken": true,
+        "plaintextBody": true,
+        "bodyPreview": "{\"success\":true,\"token\":\"ba0ea327bc8ca2ee15116ad30ce0bacd6ecbb4f9aaf62bda47d8b3a664ad0f4a\",\"user\":{\"id\":2,\"username\":\"secdemo_1791767898092\",\"role\":\"user\",\"totpEnabled\":false,\"shopId\":null,\"createdAt\":\"2026-10-12T01:18:18.103Z\",\"recoveryCodesCount\":0…"
+      },
+      "privilegeEscalation": {
+        "allowed": [
+          {
+            "method": "GET",
+            "path": "/api/pending",
+            "label": "读取待审核文章队列",
+            "status": 200,
+            "bodyPreview": "{\"posts\":[]}"
+          },
+          {
+            "method": "GET",
+            "path": "/api/comments",
+            "label": "读取全量评论（含待审）",
+            "status": 200,
+            "bodyPreview": "{\"comments\":[]}"
+          },
+          {
+            "method": "POST",
+            "path": "/api/comments/1/approve",
+            "label": "审核通过评论",
+            "status": 404,
+            "bodyPreview": "{\"success\":false,\"error\":\"评论不存在\"}"
+          },
+          {
+            "method": "POST",
+            "path": "/api/comments/1/reject",
+            "label": "拒绝评论",
+            "status": 404,
+            "bodyPreview": "{\"success\":false,\"error\":\"评论不存在\"}"
+          },
+          {
+            "method": "POST",
+            "path": "/api/approve/1",
+            "label": "审核通过文章",
+            "status": 404,
+            "bodyPreview": "{\"success\":false,\"error\":\"文章不存在\"}"
+          },
+          {
+            "method": "POST",
+            "path": "/api/reject/1",
+            "label": "拒绝文章",
+            "status": 404,
+            "bodyPreview": "{\"success\":false,\"error\":\"文章不存在\"}"
+          },
+          {
+            "method": "DELETE",
+            "path": "/api/files/999999",
+            "label": "删除他人上传文件",
+            "status": 404,
+            "bodyPreview": "{\"success\":false,\"error\":\"文件不存在\"}"
+          },
+          {
+            "method": "DELETE",
+            "path": "/api/posts/999999",
+            "label": "删除文章",
+            "status": 404,
+            "bodyPreview": "{\"success\":false,\"error\":\"文章不存在\"}"
+          }
+        ],
+        "denied": [
+          {
+            "method": "GET",
+            "path": "/api/users",
+            "label": "读取用户清单（应 403）",
+            "status": 403,
+            "bodyPreview": "{\"success\":false,\"error\":\"无权限执行此操作\"}"
+          },
+          {
+            "method": "GET",
+            "path": "/api/audit-logs",
+            "label": "读取审计日志（应 403）",
+            "status": 403,
+            "bodyPreview": "{\"success\":false,\"error\":\"无权限执行此操作\"}"
+          }
+        ]
+      },
+      "loginThrottle": {
+        "attempts": 12,
+        "statuses": [
+          401,
+          401,
+          401,
+          401,
+          401,
+          401,
+          401,
+          401,
+          401,
+          401,
+          401,
+          401
+        ],
+        "elapsedMs": 20,
+        "throttled": false
+      },
+      "ipSpoof": {
+        "spoofed": "203.0.113.66",
+        "commentCreateStatus": 201,
+        "readBackStatus": 200,
+        "recordedIp": "203.0.113.66"
+      },
+      "uploadXss": {
+        "uploadStatus": 201,
+        "storedName": "1791767898138-269420495-dast-xss-1791767898138.html",
+        "fetchStatus": 200,
+        "fetchType": "text/html; charset=UTF-8",
+        "fetchHasPayload": true
+      },
+      "unauthFileDisclosure": {
+        "fileId": 1,
+        "listStatus": 200,
+        "detailStatus": 200,
+        "downloadStatus": 200,
+        "downloadBodyHasPayload": true,
+        "listMentionsFile": true
+      },
+      "pathTraversal": {
+        "uploadStatus": 201,
+        "requestedFileName": "a/../../dast-traversal-1791767898146.txt",
+        "storedName": "1791767898146-856354502-a/../../dast-traversal-1791767898146.txt",
+        "escapedPath": "C:\\Users\\31118\\AppData\\Local\\Temp\\sec-scan-1791767897709\\dast-traversal-1791767898146.txt",
+        "escapedExists": true,
+        "cleanedUp": true
+      },
+      "errorDisclosure": {
+        "status": 400,
+        "contentType": "text/html; charset=utf-8",
+        "leaksStack": true,
+        "bodyPreview": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <title>Error</title> </head> <body> <pre>SyntaxError: Expected double-quoted property name in JSON at position 22 (line 1 column 23)<br> &nbsp; &nbsp;at JSON.parse (&lt;anonymous&gt;)<br> &nbsp; &nbsp;at parse (C:\\Users\\31118\\Desktop\\group3-project\\node_modules\\body-parser\\lib\\types\\json.js:96:19)<br> &nbsp; &nbsp;at C:\\Users\\31118\\Des…"
+      },
+      "encryptionEnforced": {
+        "plaintextLoginStatus": 401,
+        "registerWithoutEnvelope": 201,
+        "enforced": false
+      },
+      "envelope": {
+        "CHK-ENVELOPE-ACCEPT": {
+          "result": "pass",
+          "actual": "HTTP 401 {\"success\":false,\"error\":\"用户名或密码错误\"}"
+        },
+        "CHK-ENVELOPE-REPLAY": {
+          "result": "pass",
+          "actual": "HTTP 409 {\"success\":false,\"error\":\"检测到重放请求\",\"code\":\"REPLAY\"}"
+        },
+        "CHK-ENVELOPE-INTEGRITY": {
+          "result": "pass",
+          "actual": "HTTP 400 {\"success\":false,\"error\":\"密文解密或完整性校验失败\",\"code\":\"INTEGRITY_FAILED\"}"
+        }
+      },
+      "fileMetadataExposure": {
+        "count": 2,
+        "sampleFields": [
+          "id",
+          "title",
+          "author",
+          "category",
+          "description",
+          "fileName",
+          "originalName",
+          "fileType",
+          "fileSize",
+          "uploadedBy",
+          "ip",
+          "createdAt"
+        ]
+      }
+    },
+    "serverIdentification": "Express"
+  },
+  "checks": [
+    {
+      "id": "CHK-REGISTER",
+      "name": "注册演示账号",
+      "expected": "201 且返回 token",
+      "actual": "HTTP 201，已取得普通用户令牌",
+      "result": "pass"
+    },
+    {
+      "id": "CHK-UPLOAD",
+      "name": "上传内容安全",
+      "expected": "拒绝 HTML/SVG 等可执行类型；文件名不可穿越",
+      "actual": "存在不安全行为（见上方发现）",
+      "result": "fail"
+    },
+    {
+      "id": "CHK-ENVELOPE-ACCEPT",
+      "name": "数字信封可正常解封（复用项目前端实现）",
+      "expected": "HTTP 401（凭据错误，说明信封已被成功解密）",
+      "actual": "HTTP 401 {\"success\":false,\"error\":\"用户名或密码错误\"}",
+      "result": "pass",
+      "evidence": "信封字段：enc, v, ts, nonce, ek, ct, tag；nonce=YToU8MlFkzeaFlBs"
+    },
+    {
+      "id": "CHK-ENVELOPE-REPLAY",
+      "name": "防重放（nonce 一次性）",
+      "expected": "HTTP 409（REPLAY）",
+      "actual": "HTTP 409 {\"success\":false,\"error\":\"检测到重放请求\",\"code\":\"REPLAY\"}",
+      "result": "pass"
+    },
+    {
+      "id": "CHK-ENVELOPE-INTEGRITY",
+      "name": "完整性校验（AAD 绑定被篡改即拒绝）",
+      "expected": "HTTP 400（完整性或时间窗校验失败）",
+      "actual": "HTTP 400 {\"success\":false,\"error\":\"密文解密或完整性校验失败\",\"code\":\"INTEGRITY_FAILED\"}",
+      "result": "pass"
+    }
+  ],
+  "findings": [
+    {
+      "id": "DAST-AUTH-01",
+      "title": "敏感接口允许完全匿名访问",
+      "severity": "HIGH",
+      "cwe": "CWE-306",
+      "category": "认证缺陷",
+      "scanner": "dast",
+      "location": {
+        "endpoint": "GET /api/files"
+      },
+      "description": "1 个接口在不携带任何凭证的情况下返回 200 与业务数据。",
+      "evidence": "GET /api/files（文件清单）→ HTTP 200\n    响应片段：{\"files\":[]}\n\n进一步验证（匿名身份直接读取真实上传文件）：\n匿名 GET /api/files → HTTP 200，响应中包含刚上传的文件记录：true\n  响应片段：{\"files\":[{\"id\":1,\"title\":\"dast-xss-probe\",\"author\":\"匿名\",\"category\":\"其他\",\"description\":\"\",\"fileName\":\"1791767898138-269420495-dast-xss-1791767898138.html\",\"originalName\":\"dast-xss-1791767898138.html\",\"fileType\":\"text/htm…\n匿名 GET /api/files/1 → HTTP 200，可直接读取文件元数据（含上传者与 IP）\n  响应片段：{\"file\":{\"id\":1,\"title\":\"dast-xss-probe\",\"author\":\"匿名\",\"category\":\"其他\",\"description\":\"\",\"fileName\":\"1791767898138-269420495-dast-xss-1791767898138.html\",\"originalName\":\"dast-xss-1791767898138.html\",\"fileType\":\"text/html\"…\n匿名 GET /api/files/1/download → HTTP 200，Content-Disposition: attachment; filename=\"dast-xss-1791767898138.html\"\n  响应体包含上传内容：true\n\n对照组（正确拒绝匿名访问的接口，HTTP 401/401/401/401/401/401/401/404/404）：\n  - /api/me → 401\n  - /api/users → 401\n  - /api/orders → 401\n  - /api/audit-logs → 401\n  - /api/roles → 401\n  - /api/pending → 401\n  - /api/comments → 401\n  - /api/files/1 → 404\n  - /api/files/1/download → 404",
+      "impact": "匿名即可枚举并下载 /uploads 中的全部附件（含他人上传的业务文件），文件详情还会回传上传者与来源 IP；构成直接的未授权数据外泄面。",
+      "recommendation": "按「默认拒绝」为文件相关路由补齐鉴权；文件下载叠加资源归属校验；确需公开的接口显式列入白名单。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "DAST-AUTHZ-01",
+      "title": "普通用户可调用管理/审核类接口（纵向越权）",
+      "severity": "HIGH",
+      "cwe": "CWE-862",
+      "category": "权限控制缺陷",
+      "scanner": "dast",
+      "location": {
+        "endpoint": "GET /api/pending, GET /api/comments, POST /api/comments/1/approve, POST /api/comments/1/reject, POST /api/approve/1, POST /api/reject/1, DELETE /api/files/999999, DELETE /api/posts/999999"
+      },
+      "description": "使用自行注册的普通用户（secdemo_1791767898092）令牌访问 8 个管理/审核类接口时，2 个返回成功、其余进入了业务逻辑（400/404 而非 403），说明这些路由只校验了「是否登录」。",
+      "evidence": "账号：secdemo_1791767898092（role=user，通过公开注册接口获得）\nGET /api/pending（读取待审核文章队列）→ HTTP 200\n    响应片段：{\"posts\":[]}\nGET /api/comments（读取全量评论（含待审））→ HTTP 200\n    响应片段：{\"comments\":[]}\nPOST /api/comments/1/approve（审核通过评论）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"评论不存在\"}\nPOST /api/comments/1/reject（拒绝评论）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"评论不存在\"}\nPOST /api/approve/1（审核通过文章）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"文章不存在\"}\nPOST /api/reject/1（拒绝文章）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"文章不存在\"}\nDELETE /api/files/999999（删除他人上传文件）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"文件不存在\"}\nDELETE /api/posts/999999（删除文章）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"文章不存在\"}\n\n对照组（正确返回 403 的接口）：\n  - GET /api/users → 403\n  - GET /api/audit-logs → 403",
+      "impact": "攻击者无需任何特权即可注册账号，随后读取审核队列、越权审核/删除文章与评论、删除他人上传的文件；结合公开注册接口形成零门槛的完整越权链。",
+      "recommendation": "为每条路由显式声明 requirePermission(资源, 动作)，并补充「低权限角色调用高权限接口必须 403」的自动化用例。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "DAST-CRYPTO-01",
+      "title": "应用层加密（数字信封）未强制，明文请求可直接绕过",
+      "severity": "HIGH",
+      "cwe": "CWE-693",
+      "category": "安全控制缺失",
+      "scanner": "dast",
+      "location": {
+        "endpoint": "POST /api/login、POST /api/register"
+      },
+      "description": "服务端对非信封请求体直接放行（envelope.middleware 的 isEnvelope 判断不成立即 next()），因此「敏感请求必须加密」并非强制约束。",
+      "evidence": "请求 1：POST /api/login，明文 JSON {\"username\":\"__dast_nonexistent__\",\"password\":\"x\"}\n  → HTTP 401（已被业务逻辑正常处理，说明完全跳过了信封解密路径）\n\n请求 2：POST /api/register，明文 JSON（注册演示账号）\n  → HTTP 201",
+      "impact": "攻击者或被篡改的客户端只需发送明文 JSON 即可降级，Week 4 交付的机密性/完整性保护形同虚设；抓包可见的明文与「加密无法被绕过」的设计目标不符。",
+      "recommendation": "对敏感路由强制要求信封格式（非信封直接 400），或改由统一的请求入口策略执行「信封或拒绝」。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "DAST-RATE-01",
+      "title": "登录接口无速率限制与失败锁定",
+      "severity": "HIGH",
+      "cwe": "CWE-307",
+      "category": "认证缺陷",
+      "scanner": "dast",
+      "location": {
+        "endpoint": "POST /api/login"
+      },
+      "description": "连续 12 次错误口令登录全部被正常处理，未出现 429/423 或任何锁定迹象。",
+      "evidence": "请求：连续 12 次 POST /api/login（错误口令）\n响应状态序列：401, 401, 401, 401, 401, 401, 401, 401, 401, 401, 401, 401\n总耗时：20 ms（平均 2 ms/次）→ 单线程即可约 600 次/秒 的爆破速率",
+      "impact": "可对账号口令做高速字典爆破；TOTP 为 6 位且服务端允许 ±1 个时间窗（3 个候选码），无限次尝试下二次认证被实质性削弱。",
+      "recommendation": "按账号+来源 IP 做指数退避与失败锁定，对 /login/totp 单独限流，并对失败告警。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "DAST-UPLOAD-01",
+      "title": "不受限文件上传 + 上传目录静态托管 → 存储型 XSS",
+      "severity": "HIGH",
+      "cwe": "CWE-434",
+      "category": "不受限文件上传",
+      "scanner": "dast",
+      "location": {
+        "endpoint": "POST /api/files → GET /uploads/{name}"
+      },
+      "description": "上传接口不校验类型/扩展名，且上传目录由 express.static 对外托管，浏览器会按 Content-Type 渲染上传的 HTML。",
+      "evidence": "请求（普通用户令牌）：POST /api/files\n  fileName: dast-xss-1791767898138.html\n  fileType: text/html（服务端未做类型校验）\n  fileData: <base64 编码的 <script> 页面>\n响应：HTTP 201，落盘文件名 1791767898138-269420495-dast-xss-1791767898138.html\n\n随后匿名访问：GET /uploads/1791767898138-269420495-dast-xss-1791767898138.html\n  → HTTP 200\n  → Content-Type: text/html; charset=UTF-8\n  → 响应体包含 payload：true",
+      "impact": "攻击者（任意注册用户）可上传 HTML/SVG，把恶意页面托管在被测站点的同源下，可窃取 localStorage 中的登录令牌（见 SAST SEC-STORAGE-01）并冒用受害者身份，也可用于钓鱼。",
+      "recommendation": "扩展名 + MIME + 魔数三重白名单；上传目录移出 Web 根并用鉴权接口读取；下载响应统一 Content-Disposition: attachment 与 X-Content-Type-Options: nosniff。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "DAST-UPLOAD-02",
+      "title": "上传文件名可目录穿越，写入上传目录之外的任意路径",
+      "severity": "HIGH",
+      "cwe": "CWE-22",
+      "category": "路径穿越",
+      "scanner": "dast",
+      "location": {
+        "endpoint": "POST /api/files"
+      },
+      "description": "fileName 未做 basename 剥离，path.join 会把 ../ 归一化，最终落盘位置越出上传目录。",
+      "evidence": "请求（普通用户令牌）：POST /api/files\n  fileName: a/../../dast-traversal-1791767898146.txt\n响应：HTTP 201，服务端拼接后的文件名 1791767898146-856354502-a/../../dast-traversal-1791767898146.txt\n\n文件实际落盘位置（越出上传目录）：C:\\Users\\31118\\AppData\\Local\\Temp\\sec-scan-1791767897709\\dast-traversal-1791767898146.txt\n存在性校验：exists = true（探针文件已删除，未污染仓库）",
+      "impact": "可越出上传目录写文件。若写入点位于应用可加载路径（如覆盖 src 下文件）并配合重启/热加载，可升级为服务器端代码执行；至少可造成任意文件写入（覆盖配置、写 webshell 到静态目录）。",
+      "recommendation": "用 path.basename 只取基名，或由服务端自行生成文件名；落盘前校验 path.resolve 结果必须以上传目录 + 分隔符开头。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "DAST-CORS-01",
+      "title": "CORS 允许任意来源读取接口响应",
+      "severity": "MEDIUM",
+      "cwe": "CWE-942",
+      "category": "安全配置错误",
+      "scanner": "dast",
+      "location": {
+        "endpoint": "GET /api/products"
+      },
+      "description": "携带任意 Origin 的请求都被允许跨域读取响应。",
+      "evidence": "请求：GET /api/products\n  Origin: https://evil.example\n响应：HTTP 200\n  Access-Control-Allow-Origin: *",
+      "impact": "任意第三方页面可在受害者浏览器中读取本接口数据；当前令牌走 Authorization 头减轻了影响，但一旦改用 Cookie 会话即形成实质越权读取。",
+      "recommendation": "把 CORS 收敛为显式来源白名单，禁止通配符。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "DAST-ERR-01",
+      "title": "异常请求触发错误堆栈回显",
+      "severity": "MEDIUM",
+      "cwe": "CWE-209",
+      "category": "信息泄露",
+      "scanner": "dast",
+      "location": {
+        "endpoint": "POST /api/login（畸形 JSON）"
+      },
+      "description": "发送畸形 JSON 后，服务端返回的响应体中包含异常堆栈与源码路径。",
+      "evidence": "请求：POST /api/login\n  Content-Type: application/json\n  Body: {\"username\": \"admin\", （非法 JSON）\n响应：HTTP 400\n  Content-Type: text/html; charset=utf-8\n  响应片段：<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <title>Error</title> </head> <body> <pre>SyntaxError: Expected double-quoted property name in JSON at position 22 (line 1 column 23)<br> &nbsp; &nbsp;at JSON.parse (&lt;anonymous&gt;)<br> &nbsp; &nbsp;at parse (C:\\Users\\31118\\Desktop\\group3-project\\node_modules\\body-parser\\lib\\types\\json.js:96:19)<br> &nbsp; &nbsp;at C:\\Users\\31118\\Des…",
+      "impact": "泄露框架版本、目录结构与代码片段，为攻击者精确定位可利用点提供线索。",
+      "recommendation": "注册统一错误处理中间件，仅返回错误码与提示；堆栈只写服务端日志；生产环境强制 NODE_ENV=production。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "DAST-HDR-01",
+      "title": "HTTP 响应缺少关键安全头",
+      "severity": "MEDIUM",
+      "cwe": "CWE-693",
+      "category": "安全配置错误",
+      "scanner": "dast",
+      "location": {
+        "endpoint": "GET /api/products"
+      },
+      "description": "对 GET /api/products 的响应中缺少 5 个安全响应头：x-content-type-options、x-frame-options、content-security-policy、referrer-policy、permissions-policy。",
+      "evidence": "实测响应头（HTTP 200）：\n  access-control-allow-origin: *\n  connection: keep-alive\n  content-length: 681\n  content-type: application/json; charset=utf-8\n  date: Mon, 12 Oct 2026 01:18:18 GMT\n  etag: W/\"2a9-JFZoaIXd7+evs84ZGmlg02o2iFc\"\n  keep-alive: timeout=5\n  x-powered-by: Express\n缺失项及风险：\n  - x-content-type-options（期望 nosniff）：上传的 HTML/SVG 可能被浏览器按内容嗅探并渲染\n  - x-frame-options（期望 (DENY / SAMEORIGIN)）：页面可被第三方站点 iframe 嵌套（点击劫持）\n  - content-security-policy（期望 (存在策略)）：缺少 CSP 会显著放大 XSS 危害\n  - referrer-policy（期望 (存在策略)）：完整 URL 可能随外链泄露\n  - permissions-policy（期望 (存在策略)）：相机/麦克风/定位等能力默认开放",
+      "impact": "缺少 nosniff 会让上传的 HTML/SVG 被浏览器按内容执行；缺少 CSP/Frame-Options 放大 XSS 与点击劫持风险。",
+      "recommendation": "引入 helmet 统一设置安全响应头，并对 /uploads 单独下发 Content-Disposition: attachment 与 nosniff。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "DAST-LOG-01",
+      "title": "业务记录与审计日志采信客户端伪造的 IP 头",
+      "severity": "MEDIUM",
+      "cwe": "CWE-348",
+      "category": "日志与审计缺陷",
+      "scanner": "dast",
+      "location": {
+        "endpoint": "POST /api/comments"
+      },
+      "description": "服务端直接采用 X-Forwarded-For / CF-Connecting-IP 作为客户端 IP 写入记录，未校验请求是否来自可信代理。",
+      "evidence": "请求：POST /api/comments（匿名）\n  X-Forwarded-For: 203.0.113.66\n  CF-Connecting-IP: 203.0.113.66\n  content: dast-ipspoof-1791767898136\n响应：HTTP 201\n随后 GET /api/comments 读回该记录（HTTP 200）：ip 字段为 \"203.0.113.66\"（即请求头中伪造的值）",
+      "impact": "攻击者可让审计日志记录任意来源 IP，溯源、封禁与责任认定全部失效；审计报告的证明力被破坏（本项目的审计日志正是 Week 7/12 的证据链基础）。",
+      "recommendation": "仅在请求来源属于受信代理网段时采信转发头（配合 app.set(\"trust proxy\", 受信网段)）；或直接记录 socket 地址，另存转发头仅用于排查。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    },
+    {
+      "id": "DAST-INFO-01",
+      "title": "响应头泄露服务端技术栈与版本",
+      "severity": "LOW",
+      "cwe": "CWE-200",
+      "category": "信息泄露",
+      "scanner": "dast",
+      "location": {
+        "endpoint": "GET /api/products"
+      },
+      "description": "响应包含 X-Powered-By 头，直接暴露使用的框架。",
+      "evidence": "X-Powered-By: Express",
+      "impact": "攻击者可据此快速定位与该版本匹配的已知漏洞（配合依赖扫描结果可将利用成功率显著提高）。",
+      "recommendation": "app.disable(\"x-powered-by\") 或使用 helmet 的 hidePoweredBy。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": []
+    }
+  ]
+}

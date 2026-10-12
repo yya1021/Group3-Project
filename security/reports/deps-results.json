@@ -1,0 +1,322 @@
+{
+  "generatedAt": "2026-10-12T09:18:15+08:00",
+  "meta": {
+    "lockfileVersion": 3,
+    "totalPackages": 255,
+    "productionPackages": 98,
+    "devOnlyPackages": 157,
+    "auditAvailable": true,
+    "auditRegistry": "https://registry.npmjs.org/",
+    "auditError": null,
+    "offlineTableSize": 11,
+    "source": "npm audit",
+    "auditCounts": {
+      "info": 0,
+      "low": 0,
+      "moderate": 5,
+      "high": 4,
+      "critical": 4,
+      "total": 13
+    },
+    "offlineHits": 1,
+    "crossCheck": "离线表补充命中 1 项",
+    "findingCount": 13,
+    "productionHitPackages": [
+      "@vue/server-renderer",
+      "body-parser",
+      "express",
+      "proxy-addr",
+      "qs",
+      "source-map-js",
+      "vue"
+    ]
+  },
+  "findings": [
+    {
+      "id": "DEP-proxy-addr",
+      "title": "依赖组件已知漏洞：proxy-addr@2.0.7",
+      "severity": "CRITICAL",
+      "cwe": "CWE-348",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 2591
+      },
+      "description": "npm audit 报告的受影响版本范围：1.1.0 - 2.0.7；影响层级：生产依赖。",
+      "evidence": "公告：proxy-addr vulnerable to IP spoofing via IPv4-mapped IPv6 trust subnet（https://github.com/advisories/GHSA-jqcg-44mw-7w3h）\n当前解析版本：2.0.7\n严重度：critical；修复建议：执行 `npm audit fix` 可在不破坏兼容的前提下升级。",
+      "impact": "属于生产运行时依赖，漏洞可被外部请求直接触达，需优先修复。",
+      "recommendation": "执行 `npm audit fix` 可在不破坏兼容的前提下升级。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/",
+        "https://github.com/advisories/GHSA-jqcg-44mw-7w3h"
+      ]
+    },
+    {
+      "id": "DEP-shell-quote",
+      "title": "依赖组件已知漏洞：shell-quote@1.10.0",
+      "severity": "CRITICAL",
+      "cwe": "CWE-78",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 2817
+      },
+      "description": "npm audit 报告的受影响版本范围：1.8.4 - 1.10.0；影响层级：开发依赖。",
+      "evidence": "公告：shell-quote: `quote()` command injection via a line terminator in a token after a `{ comment }` token（https://github.com/advisories/GHSA-pqg4-j6r4-53mv）\n当前解析版本：1.10.0\n严重度：critical；修复建议：执行 `npm audit fix` 可在不破坏兼容的前提下升级。",
+      "impact": "仅影响本地开发/构建环节，生产镜像中通常不包含该依赖；但仍会污染 CI 与开发者工位。",
+      "recommendation": "执行 `npm audit fix` 可在不破坏兼容的前提下升级。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/",
+        "https://github.com/advisories/GHSA-pqg4-j6r4-53mv"
+      ]
+    },
+    {
+      "id": "DEP-tinypool",
+      "title": "依赖组件已知漏洞：tinypool@0.8.4",
+      "severity": "CRITICAL",
+      "cwe": "CWE-1321",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 3130
+      },
+      "description": "npm audit 报告的受影响版本范围：<=2.1.1；影响层级：开发依赖。",
+      "evidence": "公告：Tinypool: Prototype Pollution gadget in worker options leads to Remote Code Execution（https://github.com/advisories/GHSA-5gmw-xhrv-c9v3）; Tinypool: Prototype Pollution Gadget to RCE in run() options（https://github.com/advisories/GHSA-85c8-ppgw-ccpr）\n当前解析版本：0.8.4\n严重度：critical；修复建议：需要升级 vitest 到 5.0.3（跨大版本，需回归测试）。",
+      "impact": "仅影响本地开发/构建环节，生产镜像中通常不包含该依赖；但仍会污染 CI 与开发者工位。",
+      "recommendation": "需要升级 vitest 到 5.0.3（跨大版本，需回归测试）。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/",
+        "https://github.com/advisories/GHSA-5gmw-xhrv-c9v3",
+        "https://github.com/advisories/GHSA-85c8-ppgw-ccpr"
+      ]
+    },
+    {
+      "id": "DEP-vitest",
+      "title": "依赖组件已知漏洞：vitest@1.6.1",
+      "severity": "CRITICAL",
+      "cwe": "CWE-94",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 3341
+      },
+      "description": "npm audit 报告的受影响版本范围：<=4.0.0-beta.19；影响层级：开发依赖。 通过依赖链引入：tinypool / vite / vite-node。",
+      "evidence": "公告：When Vitest UI server is listening, arbitrary file can be read and executed（https://github.com/advisories/GHSA-5xrq-8626-4rwp）\n当前解析版本：1.6.1\n严重度：critical；修复建议：需要升级 vitest 到 5.0.3（跨大版本，需回归测试）。",
+      "impact": "仅影响本地开发/构建环节，生产镜像中通常不包含该依赖；但仍会污染 CI 与开发者工位。",
+      "recommendation": "需要升级 vitest 到 5.0.3（跨大版本，需回归测试）。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/",
+        "https://github.com/advisories/GHSA-5xrq-8626-4rwp"
+      ]
+    },
+    {
+      "id": "DEP-@vue/server-renderer",
+      "title": "依赖组件已知漏洞：@vue/server-renderer@3.5.41",
+      "severity": "HIGH",
+      "cwe": "CWE-79",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 1090
+      },
+      "description": "npm audit 报告的受影响版本范围：<3.5.42；影响层级：生产依赖。",
+      "evidence": "公告：@vue/server-renderer: XSS via missing CR in attribute-name blacklist（https://github.com/advisories/GHSA-g2v6-rqmx-r4w6）\n当前解析版本：3.5.41\n严重度：high；修复建议：执行 `npm audit fix` 可在不破坏兼容的前提下升级。",
+      "impact": "属于生产运行时依赖，漏洞可被外部请求直接触达，需优先修复。",
+      "recommendation": "执行 `npm audit fix` 可在不破坏兼容的前提下升级。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/",
+        "https://github.com/advisories/GHSA-g2v6-rqmx-r4w6"
+      ]
+    },
+    {
+      "id": "DEP-source-map-js",
+      "title": "依赖组件已知漏洞：source-map-js@1.2.1",
+      "severity": "HIGH",
+      "cwe": "CWE-400",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 2931
+      },
+      "description": "npm audit 报告的受影响版本范围：1.0.0 - 1.2.1；影响层级：生产依赖。",
+      "evidence": "公告：source-map-js allows event-loop denial of service through indexed source-map section offsets（https://github.com/advisories/GHSA-68fv-2mgg-jv7q）\n当前解析版本：1.2.1\n严重度：high；修复建议：执行 `npm audit fix` 可在不破坏兼容的前提下升级。",
+      "impact": "属于生产运行时依赖，漏洞可被外部请求直接触达，需优先修复。",
+      "recommendation": "执行 `npm audit fix` 可在不破坏兼容的前提下升级。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/",
+        "https://github.com/advisories/GHSA-68fv-2mgg-jv7q"
+      ]
+    },
+    {
+      "id": "DEP-vite",
+      "title": "依赖组件已知漏洞：vite@5.4.21",
+      "severity": "HIGH",
+      "cwe": "CWE-22",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 3233
+      },
+      "description": "npm audit 报告的受影响版本范围：<=6.4.2；影响层级：开发依赖。 通过依赖链引入：esbuild。",
+      "evidence": "公告：Vite Vulnerable to Path Traversal in Optimized Deps `.map` Handling（https://github.com/advisories/GHSA-4w7w-66w2-5vf9）; launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows（https://github.com/advisories/GHSA-v6wh-96g9-6wx3）; vite: `server.fs.deny` bypass on Windows alternate paths（https://github.com/advisories/GHSA-fx2h-pf6j-xcff）\n当前解析版本：5.4.21\n严重度：high；修复建议：需要升级 vite 到 8.3.4（跨大版本，需回归测试）。",
+      "impact": "仅影响本地开发/构建环节，生产镜像中通常不包含该依赖；但仍会污染 CI 与开发者工位。",
+      "recommendation": "需要升级 vite 到 8.3.4（跨大版本，需回归测试）。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/",
+        "https://github.com/advisories/GHSA-4w7w-66w2-5vf9",
+        "https://github.com/advisories/GHSA-v6wh-96g9-6wx3",
+        "https://github.com/advisories/GHSA-fx2h-pf6j-xcff"
+      ]
+    },
+    {
+      "id": "DEP-vue",
+      "title": "依赖组件已知漏洞：vue@3.5.41",
+      "severity": "HIGH",
+      "cwe": "",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 3432
+      },
+      "description": "npm audit 报告的受影响版本范围：3.2.13 - 3.5.41；影响层级：生产依赖。 通过依赖链引入：@vue/server-renderer。",
+      "evidence": "公告：（npm audit 未给出公告标题）\n当前解析版本：3.5.41\n严重度：high；修复建议：执行 `npm audit fix` 可在不破坏兼容的前提下升级。",
+      "impact": "属于生产运行时依赖，漏洞可被外部请求直接触达，需优先修复。",
+      "recommendation": "执行 `npm audit fix` 可在不破坏兼容的前提下升级。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/"
+      ]
+    },
+    {
+      "id": "DEP-body-parser",
+      "title": "依赖组件已知漏洞：body-parser@1.20.6",
+      "severity": "MEDIUM",
+      "cwe": "",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 1202
+      },
+      "description": "npm audit 报告的受影响版本范围：1.20.5 - 1.20.6；影响层级：生产依赖。 通过依赖链引入：qs。",
+      "evidence": "公告：（npm audit 未给出公告标题）\n当前解析版本：1.20.6\n严重度：moderate；修复建议：执行 `npm audit fix` 可在不破坏兼容的前提下升级。",
+      "impact": "属于生产运行时依赖，漏洞可被外部请求直接触达，需优先修复。",
+      "recommendation": "执行 `npm audit fix` 可在不破坏兼容的前提下升级。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/"
+      ]
+    },
+    {
+      "id": "DEP-esbuild",
+      "title": "依赖组件已知漏洞：esbuild@0.21.5",
+      "severity": "MEDIUM",
+      "cwe": "CWE-942",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 1693
+      },
+      "description": "npm audit 报告的受影响版本范围：<=0.24.2；影响层级：开发依赖。",
+      "evidence": "公告：esbuild enables any website to send any requests to the development server and read the response（https://github.com/advisories/GHSA-67mh-4wv8-2f99）\n当前解析版本：0.21.5\n严重度：moderate；修复建议：需要升级 vite 到 8.3.4（跨大版本，需回归测试）。",
+      "impact": "仅影响本地开发/构建环节，生产镜像中通常不包含该依赖；但仍会污染 CI 与开发者工位。",
+      "recommendation": "需要升级 vite 到 8.3.4（跨大版本，需回归测试）。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/",
+        "https://github.com/advisories/GHSA-67mh-4wv8-2f99"
+      ]
+    },
+    {
+      "id": "DEP-express",
+      "title": "依赖组件已知漏洞：express@4.22.2",
+      "severity": "MEDIUM",
+      "cwe": "",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 1791
+      },
+      "description": "npm audit 报告的受影响版本范围：4.22.2；影响层级：生产依赖。 通过依赖链引入：qs。",
+      "evidence": "公告：（npm audit 未给出公告标题）\n当前解析版本：4.22.2\n严重度：moderate；修复建议：执行 `npm audit fix` 可在不破坏兼容的前提下升级。",
+      "impact": "属于生产运行时依赖，漏洞可被外部请求直接触达，需优先修复。",
+      "recommendation": "执行 `npm audit fix` 可在不破坏兼容的前提下升级。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/"
+      ]
+    },
+    {
+      "id": "DEP-qs",
+      "title": "依赖组件已知漏洞：qs@6.15.3",
+      "severity": "MEDIUM",
+      "cwe": "CWE-400",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 2604
+      },
+      "description": "npm audit 报告的受影响版本范围：2.2.5 - 6.15.3；影响层级：生产依赖。",
+      "evidence": "公告：qs array-limit bypass via bracket-key comma parsing（https://github.com/advisories/GHSA-x5fp-wj9c-mxmx）; qs: Denial of Service via Attacker Controlled isBuffer（https://github.com/advisories/GHSA-4mjr-xmp4-gh2g）\n当前解析版本：6.15.3\n严重度：moderate；修复建议：执行 `npm audit fix` 可在不破坏兼容的前提下升级。",
+      "impact": "属于生产运行时依赖，漏洞可被外部请求直接触达，需优先修复。",
+      "recommendation": "执行 `npm audit fix` 可在不破坏兼容的前提下升级。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/",
+        "https://github.com/advisories/GHSA-x5fp-wj9c-mxmx",
+        "https://github.com/advisories/GHSA-4mjr-xmp4-gh2g"
+      ]
+    },
+    {
+      "id": "DEP-vite-node",
+      "title": "依赖组件已知漏洞：vite-node@1.6.1",
+      "severity": "MEDIUM",
+      "cwe": "",
+      "category": "第三方组件漏洞",
+      "scanner": "deps",
+      "location": {
+        "file": "package-lock.json",
+        "line": 3293
+      },
+      "description": "npm audit 报告的受影响版本范围：<=2.2.0-beta.2；影响层级：开发依赖。 通过依赖链引入：vite。",
+      "evidence": "公告：（npm audit 未给出公告标题）\n当前解析版本：1.6.1\n严重度：moderate；修复建议：需要升级 vitest 到 5.0.3（跨大版本，需回归测试）。",
+      "impact": "仅影响本地开发/构建环节，生产镜像中通常不包含该依赖；但仍会污染 CI 与开发者工位。",
+      "recommendation": "需要升级 vitest 到 5.0.3（跨大版本，需回归测试）。 修复后请重跑依赖扫描并保留前后对比。",
+      "confidence": "high",
+      "status": "fail",
+      "refs": [
+        "npm audit --registry=https://registry.npmjs.org/"
+      ]
+    }
+  ]
+}
