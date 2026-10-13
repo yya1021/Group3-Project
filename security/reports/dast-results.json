@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-12T09:18:15+08:00",
+  "generatedAt": "2026-10-12T09:23:08+08:00",
   "meta": {
-    "baseUrl": "http://127.0.0.1:63699",
+    "baseUrl": "http://127.0.0.1:59822",
     "targetKind": "local",
     "writeProbesEnabled": true,
     "probes": {
@@ -97,11 +97,11 @@
         ]
       },
       "register": {
-        "username": "secdemo_1791767898092",
+        "username": "secdemo_1791768193384",
         "status": 201,
         "gotToken": true,
         "plaintextBody": true,
-        "bodyPreview": "{\"success\":true,\"token\":\"ba0ea327bc8ca2ee15116ad30ce0bacd6ecbb4f9aaf62bda47d8b3a664ad0f4a\",\"user\":{\"id\":2,\"username\":\"secdemo_1791767898092\",\"role\":\"user\",\"totpEnabled\":false,\"shopId\":null,\"createdAt\":\"2026-10-12T01:18:18.103Z\",\"recoveryCodesCount\":0…"
+        "bodyPreview": "{\"success\":true,\"token\":\"62a522e5d3a73d7d723a0583bf50261df7520d2348306572b5a36af1e8aeb978\",\"user\":{\"id\":2,\"username\":\"secdemo_1791768193384\",\"role\":\"user\",\"totpEnabled\":false,\"shopId\":null,\"createdAt\":\"2026-10-12T01:23:13.397Z\",\"recoveryCodesCount\":0…"
       },
       "privilegeEscalation": {
         "allowed": [
@@ -195,7 +195,7 @@
           401,
           401
         ],
-        "elapsedMs": 20,
+        "elapsedMs": 19,
         "throttled": false
       },
       "ipSpoof": {
@@ -206,7 +206,7 @@
       },
       "uploadXss": {
         "uploadStatus": 201,
-        "storedName": "1791767898138-269420495-dast-xss-1791767898138.html",
+        "storedName": "1791768193429-405218577-dast-xss-1791768193429.html",
         "fetchStatus": 200,
         "fetchType": "text/html; charset=UTF-8",
         "fetchHasPayload": true
@@ -221,9 +221,9 @@
       },
       "pathTraversal": {
         "uploadStatus": 201,
-        "requestedFileName": "a/../../dast-traversal-1791767898146.txt",
-        "storedName": "1791767898146-856354502-a/../../dast-traversal-1791767898146.txt",
-        "escapedPath": "C:\\Users\\31118\\AppData\\Local\\Temp\\sec-scan-1791767897709\\dast-traversal-1791767898146.txt",
+        "requestedFileName": "a/../../dast-traversal-1791768193436.txt",
+        "storedName": "1791768193436-713688776-a/../../dast-traversal-1791768193436.txt",
+        "escapedPath": "C:\\Users\\31118\\AppData\\Local\\Temp\\sec-scan-1791768192989\\dast-traversal-1791768193436.txt",
         "escapedExists": true,
         "cleanedUp": true
       },
@@ -293,7 +293,7 @@
       "expected": "HTTP 401（凭据错误，说明信封已被成功解密）",
       "actual": "HTTP 401 {\"success\":false,\"error\":\"用户名或密码错误\"}",
       "result": "pass",
-      "evidence": "信封字段：enc, v, ts, nonce, ek, ct, tag；nonce=YToU8MlFkzeaFlBs"
+      "evidence": "信封字段：enc, v, ts, nonce, ek, ct, tag；nonce=S8vAi0NkwU5FUxdT"
     },
     {
       "id": "CHK-ENVELOPE-REPLAY",
@@ -322,7 +322,7 @@
         "endpoint": "GET /api/files"
       },
       "description": "1 个接口在不携带任何凭证的情况下返回 200 与业务数据。",
-      "evidence": "GET /api/files（文件清单）→ HTTP 200\n    响应片段：{\"files\":[]}\n\n进一步验证（匿名身份直接读取真实上传文件）：\n匿名 GET /api/files → HTTP 200，响应中包含刚上传的文件记录：true\n  响应片段：{\"files\":[{\"id\":1,\"title\":\"dast-xss-probe\",\"author\":\"匿名\",\"category\":\"其他\",\"description\":\"\",\"fileName\":\"1791767898138-269420495-dast-xss-1791767898138.html\",\"originalName\":\"dast-xss-1791767898138.html\",\"fileType\":\"text/htm…\n匿名 GET /api/files/1 → HTTP 200，可直接读取文件元数据（含上传者与 IP）\n  响应片段：{\"file\":{\"id\":1,\"title\":\"dast-xss-probe\",\"author\":\"匿名\",\"category\":\"其他\",\"description\":\"\",\"fileName\":\"1791767898138-269420495-dast-xss-1791767898138.html\",\"originalName\":\"dast-xss-1791767898138.html\",\"fileType\":\"text/html\"…\n匿名 GET /api/files/1/download → HTTP 200，Content-Disposition: attachment; filename=\"dast-xss-1791767898138.html\"\n  响应体包含上传内容：true\n\n对照组（正确拒绝匿名访问的接口，HTTP 401/401/401/401/401/401/401/404/404）：\n  - /api/me → 401\n  - /api/users → 401\n  - /api/orders → 401\n  - /api/audit-logs → 401\n  - /api/roles → 401\n  - /api/pending → 401\n  - /api/comments → 401\n  - /api/files/1 → 404\n  - /api/files/1/download → 404",
+      "evidence": "GET /api/files（文件清单）→ HTTP 200\n    响应片段：{\"files\":[]}\n\n进一步验证（匿名身份直接读取真实上传文件）：\n匿名 GET /api/files → HTTP 200，响应中包含刚上传的文件记录：true\n  响应片段：{\"files\":[{\"id\":1,\"title\":\"dast-xss-probe\",\"author\":\"匿名\",\"category\":\"其他\",\"description\":\"\",\"fileName\":\"1791768193429-405218577-dast-xss-1791768193429.html\",\"originalName\":\"dast-xss-1791768193429.html\",\"fileType\":\"text/htm…\n匿名 GET /api/files/1 → HTTP 200，可直接读取文件元数据（含上传者与 IP）\n  响应片段：{\"file\":{\"id\":1,\"title\":\"dast-xss-probe\",\"author\":\"匿名\",\"category\":\"其他\",\"description\":\"\",\"fileName\":\"1791768193429-405218577-dast-xss-1791768193429.html\",\"originalName\":\"dast-xss-1791768193429.html\",\"fileType\":\"text/html\"…\n匿名 GET /api/files/1/download → HTTP 200，Content-Disposition: attachment; filename=\"dast-xss-1791768193429.html\"\n  响应体包含上传内容：true\n\n对照组（正确拒绝匿名访问的接口，HTTP 401/401/401/401/401/401/401/404/404）：\n  - /api/me → 401\n  - /api/users → 401\n  - /api/orders → 401\n  - /api/audit-logs → 401\n  - /api/roles → 401\n  - /api/pending → 401\n  - /api/comments → 401\n  - /api/files/1 → 404\n  - /api/files/1/download → 404",
       "impact": "匿名即可枚举并下载 /uploads 中的全部附件（含他人上传的业务文件），文件详情还会回传上传者与来源 IP；构成直接的未授权数据外泄面。",
       "recommendation": "按「默认拒绝」为文件相关路由补齐鉴权；文件下载叠加资源归属校验；确需公开的接口显式列入白名单。",
       "confidence": "high",
@@ -339,8 +339,8 @@
       "location": {
         "endpoint": "GET /api/pending, GET /api/comments, POST /api/comments/1/approve, POST /api/comments/1/reject, POST /api/approve/1, POST /api/reject/1, DELETE /api/files/999999, DELETE /api/posts/999999"
       },
-      "description": "使用自行注册的普通用户（secdemo_1791767898092）令牌访问 8 个管理/审核类接口时，2 个返回成功、其余进入了业务逻辑（400/404 而非 403），说明这些路由只校验了「是否登录」。",
-      "evidence": "账号：secdemo_1791767898092（role=user，通过公开注册接口获得）\nGET /api/pending（读取待审核文章队列）→ HTTP 200\n    响应片段：{\"posts\":[]}\nGET /api/comments（读取全量评论（含待审））→ HTTP 200\n    响应片段：{\"comments\":[]}\nPOST /api/comments/1/approve（审核通过评论）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"评论不存在\"}\nPOST /api/comments/1/reject（拒绝评论）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"评论不存在\"}\nPOST /api/approve/1（审核通过文章）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"文章不存在\"}\nPOST /api/reject/1（拒绝文章）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"文章不存在\"}\nDELETE /api/files/999999（删除他人上传文件）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"文件不存在\"}\nDELETE /api/posts/999999（删除文章）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"文章不存在\"}\n\n对照组（正确返回 403 的接口）：\n  - GET /api/users → 403\n  - GET /api/audit-logs → 403",
+      "description": "使用自行注册的普通用户（secdemo_1791768193384）令牌访问 8 个管理/审核类接口时，2 个返回成功、其余进入了业务逻辑（400/404 而非 403），说明这些路由只校验了「是否登录」。",
+      "evidence": "账号：secdemo_1791768193384（role=user，通过公开注册接口获得）\nGET /api/pending（读取待审核文章队列）→ HTTP 200\n    响应片段：{\"posts\":[]}\nGET /api/comments（读取全量评论（含待审））→ HTTP 200\n    响应片段：{\"comments\":[]}\nPOST /api/comments/1/approve（审核通过评论）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"评论不存在\"}\nPOST /api/comments/1/reject（拒绝评论）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"评论不存在\"}\nPOST /api/approve/1（审核通过文章）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"文章不存在\"}\nPOST /api/reject/1（拒绝文章）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"文章不存在\"}\nDELETE /api/files/999999（删除他人上传文件）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"文件不存在\"}\nDELETE /api/posts/999999（删除文章）→ HTTP 404\n    响应片段：{\"success\":false,\"error\":\"文章不存在\"}\n\n对照组（正确返回 403 的接口）：\n  - GET /api/users → 403\n  - GET /api/audit-logs → 403",
       "impact": "攻击者无需任何特权即可注册账号，随后读取审核队列、越权审核/删除文章与评论、删除他人上传的文件；结合公开注册接口形成零门槛的完整越权链。",
       "recommendation": "为每条路由显式声明 requirePermission(资源, 动作)，并补充「低权限角色调用高权限接口必须 403」的自动化用例。",
       "confidence": "high",
@@ -376,7 +376,7 @@
         "endpoint": "POST /api/login"
       },
       "description": "连续 12 次错误口令登录全部被正常处理，未出现 429/423 或任何锁定迹象。",
-      "evidence": "请求：连续 12 次 POST /api/login（错误口令）\n响应状态序列：401, 401, 401, 401, 401, 401, 401, 401, 401, 401, 401, 401\n总耗时：20 ms（平均 2 ms/次）→ 单线程即可约 600 次/秒 的爆破速率",
+      "evidence": "请求：连续 12 次 POST /api/login（错误口令）\n响应状态序列：401, 401, 401, 401, 401, 401, 401, 401, 401, 401, 401, 401\n总耗时：19 ms（平均 2 ms/次）→ 单线程即可约 632 次/秒 的爆破速率",
       "impact": "可对账号口令做高速字典爆破；TOTP 为 6 位且服务端允许 ±1 个时间窗（3 个候选码），无限次尝试下二次认证被实质性削弱。",
       "recommendation": "按账号+来源 IP 做指数退避与失败锁定，对 /login/totp 单独限流，并对失败告警。",
       "confidence": "high",
@@ -394,7 +394,7 @@
         "endpoint": "POST /api/files → GET /uploads/{name}"
       },
       "description": "上传接口不校验类型/扩展名，且上传目录由 express.static 对外托管，浏览器会按 Content-Type 渲染上传的 HTML。",
-      "evidence": "请求（普通用户令牌）：POST /api/files\n  fileName: dast-xss-1791767898138.html\n  fileType: text/html（服务端未做类型校验）\n  fileData: <base64 编码的 <script> 页面>\n响应：HTTP 201，落盘文件名 1791767898138-269420495-dast-xss-1791767898138.html\n\n随后匿名访问：GET /uploads/1791767898138-269420495-dast-xss-1791767898138.html\n  → HTTP 200\n  → Content-Type: text/html; charset=UTF-8\n  → 响应体包含 payload：true",
+      "evidence": "请求（普通用户令牌）：POST /api/files\n  fileName: dast-xss-1791768193429.html\n  fileType: text/html（服务端未做类型校验）\n  fileData: <base64 编码的 <script> 页面>\n响应：HTTP 201，落盘文件名 1791768193429-405218577-dast-xss-1791768193429.html\n\n随后匿名访问：GET /uploads/1791768193429-405218577-dast-xss-1791768193429.html\n  → HTTP 200\n  → Content-Type: text/html; charset=UTF-8\n  → 响应体包含 payload：true",
       "impact": "攻击者（任意注册用户）可上传 HTML/SVG，把恶意页面托管在被测站点的同源下，可窃取 localStorage 中的登录令牌（见 SAST SEC-STORAGE-01）并冒用受害者身份，也可用于钓鱼。",
       "recommendation": "扩展名 + MIME + 魔数三重白名单；上传目录移出 Web 根并用鉴权接口读取；下载响应统一 Content-Disposition: attachment 与 X-Content-Type-Options: nosniff。",
       "confidence": "high",
@@ -412,7 +412,7 @@
         "endpoint": "POST /api/files"
       },
       "description": "fileName 未做 basename 剥离，path.join 会把 ../ 归一化，最终落盘位置越出上传目录。",
-      "evidence": "请求（普通用户令牌）：POST /api/files\n  fileName: a/../../dast-traversal-1791767898146.txt\n响应：HTTP 201，服务端拼接后的文件名 1791767898146-856354502-a/../../dast-traversal-1791767898146.txt\n\n文件实际落盘位置（越出上传目录）：C:\\Users\\31118\\AppData\\Local\\Temp\\sec-scan-1791767897709\\dast-traversal-1791767898146.txt\n存在性校验：exists = true（探针文件已删除，未污染仓库）",
+      "evidence": "请求（普通用户令牌）：POST /api/files\n  fileName: a/../../dast-traversal-1791768193436.txt\n响应：HTTP 201，服务端拼接后的文件名 1791768193436-713688776-a/../../dast-traversal-1791768193436.txt\n\n文件实际落盘位置（越出上传目录）：C:\\Users\\31118\\AppData\\Local\\Temp\\sec-scan-1791768192989\\dast-traversal-1791768193436.txt\n存在性校验：exists = true（探针文件已删除，未污染仓库）",
       "impact": "可越出上传目录写文件。若写入点位于应用可加载路径（如覆盖 src 下文件）并配合重启/热加载，可升级为服务器端代码执行；至少可造成任意文件写入（覆盖配置、写 webshell 到静态目录）。",
       "recommendation": "用 path.basename 只取基名，或由服务端自行生成文件名；落盘前校验 path.resolve 结果必须以上传目录 + 分隔符开头。",
       "confidence": "high",
@@ -466,7 +466,7 @@
         "endpoint": "GET /api/products"
       },
       "description": "对 GET /api/products 的响应中缺少 5 个安全响应头：x-content-type-options、x-frame-options、content-security-policy、referrer-policy、permissions-policy。",
-      "evidence": "实测响应头（HTTP 200）：\n  access-control-allow-origin: *\n  connection: keep-alive\n  content-length: 681\n  content-type: application/json; charset=utf-8\n  date: Mon, 12 Oct 2026 01:18:18 GMT\n  etag: W/\"2a9-JFZoaIXd7+evs84ZGmlg02o2iFc\"\n  keep-alive: timeout=5\n  x-powered-by: Express\n缺失项及风险：\n  - x-content-type-options（期望 nosniff）：上传的 HTML/SVG 可能被浏览器按内容嗅探并渲染\n  - x-frame-options（期望 (DENY / SAMEORIGIN)）：页面可被第三方站点 iframe 嵌套（点击劫持）\n  - content-security-policy（期望 (存在策略)）：缺少 CSP 会显著放大 XSS 危害\n  - referrer-policy（期望 (存在策略)）：完整 URL 可能随外链泄露\n  - permissions-policy（期望 (存在策略)）：相机/麦克风/定位等能力默认开放",
+      "evidence": "实测响应头（HTTP 200）：\n  access-control-allow-origin: *\n  connection: keep-alive\n  content-length: 681\n  content-type: application/json; charset=utf-8\n  date: Mon, 12 Oct 2026 01:23:13 GMT\n  etag: W/\"2a9-JFZoaIXd7+evs84ZGmlg02o2iFc\"\n  keep-alive: timeout=5\n  x-powered-by: Express\n缺失项及风险：\n  - x-content-type-options（期望 nosniff）：上传的 HTML/SVG 可能被浏览器按内容嗅探并渲染\n  - x-frame-options（期望 (DENY / SAMEORIGIN)）：页面可被第三方站点 iframe 嵌套（点击劫持）\n  - content-security-policy（期望 (存在策略)）：缺少 CSP 会显著放大 XSS 危害\n  - referrer-policy（期望 (存在策略)）：完整 URL 可能随外链泄露\n  - permissions-policy（期望 (存在策略)）：相机/麦克风/定位等能力默认开放",
       "impact": "缺少 nosniff 会让上传的 HTML/SVG 被浏览器按内容执行；缺少 CSP/Frame-Options 放大 XSS 与点击劫持风险。",
       "recommendation": "引入 helmet 统一设置安全响应头，并对 /uploads 单独下发 Content-Disposition: attachment 与 nosniff。",
       "confidence": "high",
@@ -484,7 +484,7 @@
         "endpoint": "POST /api/comments"
       },
       "description": "服务端直接采用 X-Forwarded-For / CF-Connecting-IP 作为客户端 IP 写入记录，未校验请求是否来自可信代理。",
-      "evidence": "请求：POST /api/comments（匿名）\n  X-Forwarded-For: 203.0.113.66\n  CF-Connecting-IP: 203.0.113.66\n  content: dast-ipspoof-1791767898136\n响应：HTTP 201\n随后 GET /api/comments 读回该记录（HTTP 200）：ip 字段为 \"203.0.113.66\"（即请求头中伪造的值）",
+      "evidence": "请求：POST /api/comments（匿名）\n  X-Forwarded-For: 203.0.113.66\n  CF-Connecting-IP: 203.0.113.66\n  content: dast-ipspoof-1791768193426\n响应：HTTP 201\n随后 GET /api/comments 读回该记录（HTTP 200）：ip 字段为 \"203.0.113.66\"（即请求头中伪造的值）",
       "impact": "攻击者可让审计日志记录任意来源 IP，溯源、封禁与责任认定全部失效；审计报告的证明力被破坏（本项目的审计日志正是 Week 7/12 的证据链基础）。",
       "recommendation": "仅在请求来源属于受信代理网段时采信转发头（配合 app.set(\"trust proxy\", 受信网段)）；或直接记录 socket 地址，另存转发头仅用于排查。",
       "confidence": "high",

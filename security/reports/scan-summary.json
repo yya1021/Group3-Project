@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-12T09:18:15+08:00",
-  "commit": "dfc7a27",
+  "generatedAt": "2026-10-12T09:23:08+08:00",
+  "commit": "880c27d",
   "env": {
     "platform": "win32 x64",
     "node": "v24.4.1",
@@ -85,7 +85,7 @@
     },
     "dast": {
       "meta": {
-        "baseUrl": "http://127.0.0.1:63699",
+        "baseUrl": "http://127.0.0.1:59822",
         "targetKind": "local",
         "writeProbesEnabled": true,
         "probes": {
@@ -181,11 +181,11 @@
             ]
           },
           "register": {
-            "username": "secdemo_1791767898092",
+            "username": "secdemo_1791768193384",
             "status": 201,
             "gotToken": true,
             "plaintextBody": true,
-            "bodyPreview": "{\"success\":true,\"token\":\"ba0ea327bc8ca2ee15116ad30ce0bacd6ecbb4f9aaf62bda47d8b3a664ad0f4a\",\"user\":{\"id\":2,\"username\":\"secdemo_1791767898092\",\"role\":\"user\",\"totpEnabled\":false,\"shopId\":null,\"createdAt\":\"2026-10-12T01:18:18.103Z\",\"recoveryCodesCount\":0…"
+            "bodyPreview": "{\"success\":true,\"token\":\"62a522e5d3a73d7d723a0583bf50261df7520d2348306572b5a36af1e8aeb978\",\"user\":{\"id\":2,\"username\":\"secdemo_1791768193384\",\"role\":\"user\",\"totpEnabled\":false,\"shopId\":null,\"createdAt\":\"2026-10-12T01:23:13.397Z\",\"recoveryCodesCount\":0…"
           },
           "privilegeEscalation": {
             "allowed": [
@@ -279,7 +279,7 @@
               401,
               401
             ],
-            "elapsedMs": 20,
+            "elapsedMs": 19,
             "throttled": false
           },
           "ipSpoof": {
@@ -290,7 +290,7 @@
           },
           "uploadXss": {
             "uploadStatus": 201,
-            "storedName": "1791767898138-269420495-dast-xss-1791767898138.html",
+            "storedName": "1791768193429-405218577-dast-xss-1791768193429.html",
             "fetchStatus": 200,
             "fetchType": "text/html; charset=UTF-8",
             "fetchHasPayload": true
@@ -305,9 +305,9 @@
           },
           "pathTraversal": {
             "uploadStatus": 201,
-            "requestedFileName": "a/../../dast-traversal-1791767898146.txt",
-            "storedName": "1791767898146-856354502-a/../../dast-traversal-1791767898146.txt",
-            "escapedPath": "C:\\Users\\31118\\AppData\\Local\\Temp\\sec-scan-1791767897709\\dast-traversal-1791767898146.txt",
+            "requestedFileName": "a/../../dast-traversal-1791768193436.txt",
+            "storedName": "1791768193436-713688776-a/../../dast-traversal-1791768193436.txt",
+            "escapedPath": "C:\\Users\\31118\\AppData\\Local\\Temp\\sec-scan-1791768192989\\dast-traversal-1791768193436.txt",
             "escapedExists": true,
             "cleanedUp": true
           },
@@ -378,7 +378,7 @@
           "expected": "HTTP 401（凭据错误，说明信封已被成功解密）",
           "actual": "HTTP 401 {\"success\":false,\"error\":\"用户名或密码错误\"}",
           "result": "pass",
-          "evidence": "信封字段：enc, v, ts, nonce, ek, ct, tag；nonce=YToU8MlFkzeaFlBs"
+          "evidence": "信封字段：enc, v, ts, nonce, ek, ct, tag；nonce=S8vAi0NkwU5FUxdT"
         },
         {
           "id": "CHK-ENVELOPE-REPLAY",
