@@ -18,12 +18,47 @@ const ORDERS_FILE = () => path.join(DATA_DIR, 'orders.json');
 
 // 登录令牌存储（内存）
 const validTokens = new Map();
-// TOTP 两步登录的临时挑战（内存）：authChallengeId -> { username, role, expiresAt }
+// TOTP 两步登录的临时挑战（内存）
 const authChallenges = new Map();
+
+// ==========================================
+// 🚀 新增：内存缓存机制 (性能优化核心)
+// ==========================================
+let cache = {}; 
+let writeTimers = {}; // 防抖计时器，防止频繁写盘
+
+function loadCache(filePath, key) {
+  if (cache[filePath]) return;
+  try {
+    if (fs.existsSync(filePath)) {
+      const content = fs.readFileSync(filePath, 'utf8');
+      const parsed = JSON.parse(content);
+      cache[filePath] = Array.isArray(parsed[key]) ? parsed[key] : [];
+    } else {
+      cache[filePath] = [];
+    }
+  } catch (e) {
+    cache[filePath] = [];
+  }
+}
+
+function asyncWrite(filePath, key) {
+  if (writeTimers[filePath]) clearTimeout(writeTimers[filePath]);
+  // 防抖：500ms 内如果有多次写操作，只写最后一次到硬盘
+  writeTimers[filePath] = setTimeout(() => {
+    try {
+      fs.promises.writeFile(filePath, JSON.stringify({ [key]: cache[filePath] }, null, 2), 'utf8');
+    } catch (e) {
+      console.error('异步写入文件失败:', e);
+    }
+  }, 500);
+}
+// ==========================================
 
 function configure(dirs) {
   if (dirs.dataDir) DATA_DIR = dirs.dataDir;
   if (dirs.uploadsDir) UPLOADS_DIR = dirs.uploadsDir;
+  cache = {}; // 切换目录时清空缓存
   ensureStructure();
 }
 
@@ -44,7 +79,7 @@ function ensureStructure() {
     if (!fs.existsSync(file)) fs.writeFileSync(file, JSON.stringify(def, null, 2), 'utf8');
   }
 
-  // 初始化默认管理员（四角色中的 admin）
+  // 初始化默认管理员
   const users = readUsers();
   if (!users.find(u => u.username === 'admin')) {
     users.push({
@@ -60,7 +95,7 @@ function ensureStructure() {
     writeUsers(users);
   }
 
-  // 兼容旧 admin.json：若存在旧管理员且 users 为空，迁移之
+  // 兼容旧 admin.json
   if (!fs.existsSync(ADMIN_FILE())) {
     fs.writeFileSync(ADMIN_FILE(), JSON.stringify({
       admins: [{
@@ -73,7 +108,7 @@ function ensureStructure() {
     }, null, 2), 'utf8');
   }
 
-  // 初始化商品数据（迁移自第二个系统的演示商品）
+  // 初始化商品数据
   if (readProducts().length === 0) {
     const products = [
       { type: 'hand', name: '防滑防护手套', id: 1, price: 15, stock: 86, photo: '/api/products/photo/1' },
@@ -87,19 +122,20 @@ function ensureStructure() {
   }
 }
 
-// 通用读取/写入
+// ==========================================
+// 🚀 优化：通用读取/写入 (全面走内存)
+// ==========================================
 function readJson(file, key) {
-  try {
-    const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
-    if (parsed && typeof parsed === 'object' && Array.isArray(parsed[key])) return parsed[key];
-    return [];
-  } catch (e) { return []; }
+  loadCache(file, key); // 确保已加载进内存
+  return cache[file];   // 直接返回内存数据，毫秒级响应！
 }
 
 function writeJson(file, key, items) {
-  try { fs.writeFileSync(file, JSON.stringify({ [key]: items }, null, 2), 'utf8'); return true; }
-  catch (e) { return false; }
+  cache[file] = items;  // 更新内存
+  asyncWrite(file, key); // 异步落盘，不阻塞主线程
+  return true;
 }
+// ==========================================
 
 function getNextId(items) {
   if (items.length === 0) return 1;
@@ -114,48 +150,45 @@ function generateToken(username) {
   return crypto.createHash('sha256').update(username + Date.now() + Math.random()).digest('hex');
 }
 
-// ============ 文章 ============
+// ============ 各种数据操作方法 ============
 const readPosts = () => readJson(POSTS_FILE(), 'posts');
 const writePosts = (posts) => writeJson(POSTS_FILE(), 'posts', posts);
 const readPendingPosts = () => readJson(PENDING_FILE(), 'posts');
 const writePendingPosts = (posts) => writeJson(PENDING_FILE(), 'posts', posts);
 
-// ============ 用户（四角色统一）============
 const readUsers = () => readJson(USERS_FILE(), 'users');
 const writeUsers = (users) => writeJson(USERS_FILE(), 'users', users);
 
-// ============ 商品 ============
 const readProducts = () => readJson(PRODUCTS_FILE(), 'products');
 const writeProducts = (products) => writeJson(PRODUCTS_FILE(), 'products', products);
 
-// ============ 订单 ============
 const readOrders = () => readJson(ORDERS_FILE(), 'orders');
 const writeOrders = (orders) => writeJson(ORDERS_FILE(), 'orders', orders);
 
-// ============ 管理员（兼容旧数据）============
 function readAdmins() {
-  try {
-    const parsed = JSON.parse(fs.readFileSync(ADMIN_FILE(), 'utf8'));
-    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed) && Array.isArray(parsed.admins)) return parsed.admins;
-    if (Array.isArray(parsed)) return parsed;
-    return [];
-  } catch (e) { return []; }
+  const file = ADMIN_FILE();
+  if (!cache[file]) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
+      cache[file] = Array.isArray(parsed.admins) ? parsed.admins : (Array.isArray(parsed) ? parsed : []);
+    } catch (e) { cache[file] = []; }
+  }
+  return cache[file];
 }
 function writeAdmins(admins) {
-  try { fs.writeFileSync(ADMIN_FILE(), JSON.stringify({ admins }, null, 2), 'utf8'); return true; }
-  catch (e) { return false; }
+  const file = ADMIN_FILE();
+  cache[file] = admins;
+  asyncWrite(file, 'admins');
+  return true;
 }
 
-// ============ 文件 ============
 const readFiles = () => readJson(FILES_FILE(), 'files');
 const writeFiles = (files) => writeJson(FILES_FILE(), 'files', files);
 const getUploadsDir = () => UPLOADS_DIR;
 
-// ============ 评论 ============
 const readComments = () => readJson(COMMENTS_FILE(), 'comments');
 const writeComments = (comments) => writeJson(COMMENTS_FILE(), 'comments', comments);
 
-// 当前数据目录（供其他服务动态获取，测试隔离时跟随 configure）
 const getDataDir = () => DATA_DIR;
 
 // ============ 令牌 ============
@@ -175,15 +208,10 @@ function getTokenData(token) {
   return data;
 }
 
-function destroyToken(token) {
-  validTokens.delete(token);
-}
+function destroyToken(token) { validTokens.delete(token); }
+function getValidTokens() { return validTokens; }
 
-function getValidTokens() {
-  return validTokens;
-}
-
-// ============ TOTP 两步登录挑战 ============
+// ============ TOTP ============
 function createAuthChallenge(username, role, extra = {}) {
   const id = generateToken('challenge' + username);
   authChallenges.set(id, { username, role, ...extra, expiresAt: Date.now() + 5 * 60 * 1000 });
@@ -201,34 +229,13 @@ function consumeAuthChallenge(id) {
 }
 
 module.exports = {
-  configure,
-  ensureStructure,
-  getNextId,
-  hashPassword,
-  readPosts,
-  writePosts,
-  readPendingPosts,
-  writePendingPosts,
-  readUsers,
-  writeUsers,
-  readProducts,
-  writeProducts,
-  readOrders,
-  writeOrders,
-  readAdmins,
-  writeAdmins,
-  readFiles,
-  writeFiles,
-  readComments,
-  writeComments,
-  getDataDir,
-  getUploadsDir,
-  createToken,
-  getTokenData,
-  destroyToken,
-  getValidTokens,
-  createAuthChallenge,
-  consumeAuthChallenge,
-  DATA_DIR,
-  UPLOADS_DIR
+  configure, ensureStructure, getNextId, hashPassword,
+  readPosts, writePosts, readPendingPosts, writePendingPosts,
+  readUsers, writeUsers, readProducts, writeProducts,
+  readOrders, writeOrders, readAdmins, writeAdmins,
+  readFiles, writeFiles, readComments, writeComments,
+  getDataDir, getUploadsDir,
+  createToken, getTokenData, destroyToken, getValidTokens,
+  createAuthChallenge, consumeAuthChallenge,
+  DATA_DIR, UPLOADS_DIR
 };
